@@ -6,8 +6,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CraftTools"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:viewModels="clr-namespace:CraftTools.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Controls:MetroWindow.Resources>
+        <viewModels:MainWindowViewModel x:Key="_mainWindowVM"/>
+    </Controls:MetroWindow.Resources>
     <Grid>
         
     </Grid>

@@ -7,13 +7,13 @@
     public class CraftToolsContext : DbContext
     {
         public CraftToolsContext()
-            : base("name=CraftToolsContext")
+            : base("name=CraftTools.Properties.Settings.CraftToolsContext")
         {
         }
 
-        DbSet<Material> Materials { get; set; }
-        DbSet<Ware> Wares { get; set; }
-        DbSet<Profit> Profits { get; set; }
-        DbSet<Loss> Losses { get; set; }
+        public DbSet<Material> Materials { get; set; }
+        public DbSet<Ware> Wares { get; set; }
+        public DbSet<Profit> Profits { get; set; }
+        public DbSet<Loss> Losses { get; set; }
     }
 }
