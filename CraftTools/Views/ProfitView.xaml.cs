@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CraftTools
+namespace CraftTools.Views
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для ProfitView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ProfitView : UserControl
     {
-        public MainWindow()
+        public ProfitView()
         {
             InitializeComponent();
         }
