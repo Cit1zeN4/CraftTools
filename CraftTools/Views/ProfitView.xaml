@@ -16,7 +16,8 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="0"/>
         </Grid.ColumnDefinitions>
-        <ListBox 
+        <ListBox
+            HorizontalContentAlignment="Stretch" 
             DataContext="{StaticResource _profitVM}" 
             ItemsSource="{Binding Profits}" 
             Background="{x:Null}">
