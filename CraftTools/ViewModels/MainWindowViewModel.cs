@@ -11,10 +11,7 @@ namespace CraftTools.ViewModels
     {
         public MainWindowViewModel()
         {
-            var context = new CraftToolsContext();
-            Material material = new Material { Name = "Name 1", Description = "Descrition 1", Price = 2.4f };
-            context.Materials.Add(material);
-            context.SaveChanges();
+
         }
     }
 
