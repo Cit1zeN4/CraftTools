@@ -24,7 +24,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid 
-                        Background="Gray" 
+                        Background="{DynamicResource PrimaryHueMidBrush}" 
                         Margin="0 5 5 5" Height="80">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>

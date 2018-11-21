@@ -23,36 +23,47 @@
     </Window.Resources>
     <Grid
         x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel 
+        <StackPanel
+            Grid.Row="0" Grid.RowSpan="2"
+            Grid.Column="0"
             x:Name="MainButtonPanel" 
             Orientation="Vertical" 
             VerticalAlignment="Center" 
             HorizontalAlignment="Center">
-            <Button 
+            <Button
+                Style="{DynamicResource MaterialDesignFloatingActionButton}"
                 Width="40" Height="40" 
                 Margin="0 5 0 5">
             </Button>
-            <Button 
+            <Button
+                Style="{DynamicResource MaterialDesignFloatingActionButton}"
                 Width="40" Height="40" 
                 Margin="0 5 0 5">
             </Button>
-            <Button 
+            <Button
+                Style="{DynamicResource MaterialDesignFloatingActionButton}"
                 Width="40" Height="40" 
                 Margin="0 5 0 5">
             </Button>
-            <Button 
+            <Button
+                Style="{DynamicResource MaterialDesignFloatingActionButton}"
                 Width="40" Height="40"                
                 Margin="0 5 0 5">
             </Button>
-            <Button 
+            <Button
+                Style="{DynamicResource MaterialDesignFloatingActionButton}"
                 Width="40" Height="40"              
                 Margin="0 5 0 5">
             </Button>
         </StackPanel>
-        <ContentControl Grid.Column="1" Content="{StaticResource _profitView}"/>
+        <ContentControl Grid.Row="1" Grid.Column="1" Content="{StaticResource _profitView}"/>
     </Grid>
 </Window>
