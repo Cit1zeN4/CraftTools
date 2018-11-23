@@ -64,6 +64,6 @@
                 Margin="0 5 0 5">
             </Button>
         </StackPanel>
-        <ContentControl Grid.Row="1" Grid.Column="1" Content="{StaticResource _profitView}"/>
+        <ContentControl Margin="0 5 5 5" Grid.Row="1" Grid.Column="1" Content="{StaticResource _profitView}"/>
     </Grid>
 </Window>

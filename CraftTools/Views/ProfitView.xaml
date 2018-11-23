@@ -6,26 +6,28 @@
              xmlns:viewModel="clr-namespace:CraftTools.ViewModels"
              xmlns:local="clr-namespace:CraftTools.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="432" d:DesignWidth="688">
     <UserControl.Resources>
         <viewModel:ProfitViewModel x:Key="_profitVM"/>
     </UserControl.Resources>
     <Grid
         x:Name="ProfitViewMainGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="8*"/>
         </Grid.ColumnDefinitions>
         <ListBox
             HorizontalContentAlignment="Stretch" 
             DataContext="{StaticResource _profitVM}" 
-            ItemsSource="{Binding Profits}" 
+            ItemsSource="{Binding Profits}"
+            SelectedItem="{Binding SelectedProfit, 
+            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Background="{x:Null}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid 
                         Background="{DynamicResource PrimaryHueMidBrush}" 
-                        Margin="0 5 5 5" Height="80">
+                        Margin="0 5 5 5" Height="60">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
@@ -34,12 +36,103 @@
                             <ColumnDefinition Width="10*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Foreground="White" Margin="10 0 0 5" VerticalAlignment="Bottom" Grid.Row="0" Grid.Column="0" Text="{Binding Name}"/>
-                        <TextBlock Foreground="White" Margin="10 5 0 0" VerticalAlignment="Top" Grid.Row="1" Grid.Column="0" Text="{Binding Description}"/>
-                        <TextBlock Foreground="White" Margin="0 0 10 5" Grid.Row="1" Grid.Column="1" Text="{Binding Price}"/>
+                        <TextBlock 
+                            Foreground="White" Margin="10 0 0 5" 
+                            VerticalAlignment="Bottom" Grid.Row="0" 
+                            Grid.Column="0" Text="{Binding Name}"/>
+                        <TextBlock 
+                            Foreground="White" Margin="10 5 0 0" 
+                            VerticalAlignment="Top" Grid.Row="1" 
+                            Grid.Column="0" Text="{Binding Description}"/>
+                        <TextBlock 
+                            Foreground="White" Margin="0 0 10 5" 
+                            Grid.Row="1" Grid.Column="1" 
+                            Text="{Binding Price}"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <Grid
+            x:Name="ProfitEditBox"
+            Grid.Column="1"
+            Background="{DynamicResource MaterialDesignPaper}"
+            DataContext="{Binding SelectedProfit, 
+            Source={StaticResource _profitVM}}"
+            Margin="0 12 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2.9*"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="65"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <StackPanel 
+                Grid.Column="0" 
+                Grid.ColumnSpan="2"
+                Grid.Row="0" 
+                Grid.RowSpan="2"
+                Background="{DynamicResource PrimaryHueMidBrush}"/>
+            <StackPanel 
+                Grid.Column="0" 
+                Grid.ColumnSpan="2" 
+                Grid.Row="0" 
+                Grid.RowSpan="2"
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center">
+                <TextBlock 
+                    Text="{Binding Id, 
+                    Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}Profit #{0}}" 
+                    Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" 
+                    FontSize="50"/>
+            </StackPanel>
+            <Button 
+                Grid.Column="1" Grid.Row="1" 
+                Grid.RowSpan="2" Width="40" 
+                Height="40" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="0 0 35 0">
+            </Button>
+            <TextBlock 
+                Grid.Column="0" Grid.Row="3" 
+                Text="Название" Margin="15 0 0 0"/>
+            <TextBox 
+                Grid.Column="0" Grid.ColumnSpan="2" 
+                Grid.Row="4" Margin="15 0 15 0"
+                IsReadOnly="True" Text="{Binding Name, 
+                Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+            <TextBlock 
+                Grid.Column="0" Grid.Row="5" 
+                Text="Описание" Margin="15 0 0 0"/>
+            <TextBox 
+                Grid.Column="0" Grid.ColumnSpan="2" 
+                Grid.Row="6" Margin="15 0 15 0"
+                IsReadOnly="True" TextWrapping="Wrap"
+                Text="{Binding Description, 
+                Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+            <TextBlock 
+                Grid.Column="0" Grid.Row="8" 
+                Text="Цена" Margin="15 0 0 0" 
+                FontSize="28" VerticalAlignment="Center" 
+                FontWeight="Bold" 
+                Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+            <TextBox 
+                Grid.Column="1" Grid.Row="8"
+                FontSize="28" VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                FontWeight="Bold" Margin="0 0 15 0"
+                Foreground="{DynamicResource PrimaryHueMidBrush}"
+                IsReadOnly="True" Text="{Binding Price, 
+                Mode=TwoWay, UpdateSourceTrigger=LostFocus, 
+                StringFormat={}{0} BYN.}"/>
+        </Grid>
     </Grid>
 </UserControl>
