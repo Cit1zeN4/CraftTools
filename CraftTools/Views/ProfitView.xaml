@@ -13,11 +13,16 @@
     </UserControl.Resources>
     <Grid
         x:Name="ProfitViewMainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*"/>
             <ColumnDefinition Width="{Binding EditBoxLength, Source={StaticResource _profitVM}}"/>
         </Grid.ColumnDefinitions>
         <ListBox
+            Grid.Column="0" Grid.Row="1"
             HorizontalContentAlignment="Stretch" 
             DataContext="{StaticResource _profitVM}" 
             ItemsSource="{Binding Profits}"
@@ -56,7 +61,7 @@
         </ListBox>
         <Grid
             x:Name="ProfitEditBox"
-            Grid.Column="1"
+            Grid.Column="1" Grid.Row="1"
             Background="{DynamicResource MaterialDesignPaper}"
             DataContext="{Binding SelectedProfit, 
             Source={StaticResource _profitVM}}"

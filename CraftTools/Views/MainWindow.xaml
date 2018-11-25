@@ -23,10 +23,6 @@
     </Window.Resources>
     <Grid
         x:Name="MainGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="10*"/>
@@ -64,6 +60,8 @@
                 Margin="0 5 0 5">
             </Button>
         </StackPanel>
-        <ContentControl Margin="0 5 5 5" Grid.Row="1" Grid.Column="1" Content="{StaticResource _profitView}"/>
+        <ContentControl 
+            Margin="0 5 5 5" Grid.Column="1" 
+            Content="{StaticResource _profitView}"/>
     </Grid>
 </Window>
