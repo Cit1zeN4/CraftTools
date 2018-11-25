@@ -107,8 +107,12 @@
                 VerticalAlignment="Center" 
                 Margin="0 0 35 0" 
                 Command="{Binding SaveChanges, 
-                Mode=OneWay, Source={StaticResource _profitVM}}">
-                <materialDesign:PackIcon Kind="{Binding EditBoxCurentIcon, Source={StaticResource _profitVM}}" Foreground="{DynamicResource SecondaryAccentForegroundBrush}"/>
+                Mode=OneWay, Source={StaticResource _profitVM}}"
+                ToolTip="Редактировать">
+                <materialDesign:PackIcon 
+                    Kind="{Binding EditBoxCurentIcon, 
+                    Source={StaticResource _profitVM}}" 
+                    Foreground="{DynamicResource SecondaryAccentForegroundBrush}"/>
             </Button>
             <TextBox 
                 Grid.Column="0" Grid.ColumnSpan="2" 
@@ -146,5 +150,10 @@
                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.Hint="Цена"/>
         </Grid>
+        <StackPanel
+            Grid.Column="0" Grid.ColumnSpan="2"
+            Orientation="Horizontal">
+            <Button Content="Добавить" Style="{StaticResource MaterialDesignFlatButton}"/>
+        </StackPanel>
     </Grid>
 </UserControl>
