@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CraftTools.ViewModels
 {
@@ -52,6 +53,7 @@ namespace CraftTools.ViewModels
         Profit selectedProfit;
         bool isReadOnly = true;
         string editBoxCurentIcon = "Pencil";
+        GridLength editBoxLength = new GridLength(0);
 
         #endregion
 
@@ -71,6 +73,7 @@ namespace CraftTools.ViewModels
             set
             {
                 selectedProfit = value;
+                EditBoxLength = new GridLength(8, GridUnitType.Star);
                 OnPropertyChanged();
             }
         }
@@ -91,6 +94,16 @@ namespace CraftTools.ViewModels
             set
             {
                 editBoxCurentIcon = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public GridLength EditBoxLength
+        {
+            get => editBoxLength;
+            set
+            {
+                editBoxLength = value;
                 OnPropertyChanged();
             }
         }

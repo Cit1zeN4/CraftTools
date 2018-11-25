@@ -15,7 +15,7 @@
         x:Name="ProfitViewMainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*"/>
-            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="{Binding EditBoxLength, Source={StaticResource _profitVM}}"/>
         </Grid.ColumnDefinitions>
         <ListBox
             HorizontalContentAlignment="Stretch" 
