@@ -1,4 +1,5 @@
-﻿using CraftTools.Models;
+﻿using CraftTools.Helpers;
+using CraftTools.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -34,9 +35,9 @@ namespace CraftTools.ViewModels
         {
             Profits = new ObservableCollection<Profit>();
 
-            using (_context = new CraftToolsContext())
+            using (context = new CraftToolsContext())
             {
-                foreach(Profit p in _context.Profits)
+                foreach(Profit p in context.Profits)
                 {
                     Profits.Add(p);
                 }
@@ -47,8 +48,10 @@ namespace CraftTools.ViewModels
 
         #region Fields
 
-        CraftToolsContext _context;
-        Profit _selectedProfit;
+        CraftToolsContext context;
+        Profit selectedProfit;
+        bool isReadOnly = true;
+        string editBoxCurentIcon = "Pencil";
 
         #endregion
 
@@ -60,17 +63,97 @@ namespace CraftTools.ViewModels
         {
             get
             {
-                if (_selectedProfit == null)
+                if (selectedProfit == null)
                     return null;
                 else
-                    return _selectedProfit;
+                    return selectedProfit;
             }
             set
             {
-                _selectedProfit = value;
+                selectedProfit = value;
                 OnPropertyChanged();
             }
         }
+
+        public bool IsReadOnly
+        {
+            get => isReadOnly;
+            set
+            {
+                isReadOnly = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string EditBoxCurentIcon
+        {
+            get => editBoxCurentIcon;
+            set
+            {
+                editBoxCurentIcon = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion
+
+        #region Commands
+
+        #region Command Fields
+
+        BaseCommand saveChangesCmd;
+
+        #endregion
+
+        #region Command Properties
+
+        public BaseCommand SaveChanges
+        {
+            get => saveChangesCmd ?? (saveChangesCmd = new BaseCommand(obj => saveChangesMethod()));
+        }
+
+        #endregion
+
+        #region Command Methods
+
+        private void comparison(ref Profit profit)
+        {
+            if (profit.Id != SelectedProfit.Id)
+                profit.Id = SelectedProfit.Id;
+
+            if (profit.Name != SelectedProfit.Name)
+                profit.Name = SelectedProfit.Name;
+
+            if (profit.Description != SelectedProfit.Description)
+                profit.Description = SelectedProfit.Description;
+
+            if (profit.Price != SelectedProfit.Price)
+                profit.Price = SelectedProfit.Price;
+        }
+
+        private void saveChangesMethod()
+        {
+            using (context = new CraftToolsContext())
+            {
+                if (IsReadOnly == true)
+                {
+                    IsReadOnly = false;
+                    EditBoxCurentIcon = "Check";
+                }
+                else
+                {
+                    IsReadOnly = true;
+                    var prof = context.Profits
+                        .Where(x => x.Id == SelectedProfit.Id)
+                        .FirstOrDefault();
+                    comparison(ref prof);
+                    context.SaveChanges();
+                    EditBoxCurentIcon = "Pencil";
+                }
+            }
+        }
+
+        #endregion
 
         #endregion
     }

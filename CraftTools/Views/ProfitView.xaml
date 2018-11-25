@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:CraftTools.ViewModels"
              xmlns:local="clr-namespace:CraftTools.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="432" d:DesignWidth="688">
     <UserControl.Resources>
@@ -99,7 +100,10 @@
                 Height="40" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Center" 
-                Margin="0 0 35 0">
+                Margin="0 0 35 0" 
+                Command="{Binding SaveChanges, 
+                Mode=OneWay, Source={StaticResource _profitVM}}">
+                <materialDesign:PackIcon Kind="{Binding EditBoxCurentIcon, Source={StaticResource _profitVM}}" Foreground="{DynamicResource SecondaryAccentForegroundBrush}"/>
             </Button>
             <TextBlock 
                 Grid.Column="0" Grid.Row="3" 
@@ -107,17 +111,23 @@
             <TextBox 
                 Grid.Column="0" Grid.ColumnSpan="2" 
                 Grid.Row="4" Margin="15 0 15 0"
-                IsReadOnly="True" Text="{Binding Name, 
-                Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                Text="{Binding Name, 
+                Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                IsReadOnly="{Binding IsReadOnly, 
+                Source={StaticResource _profitVM}, 
+                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock 
                 Grid.Column="0" Grid.Row="5" 
                 Text="Описание" Margin="15 0 0 0"/>
             <TextBox 
                 Grid.Column="0" Grid.ColumnSpan="2" 
                 Grid.Row="6" Margin="15 0 15 0"
-                IsReadOnly="True" TextWrapping="Wrap"
+                TextWrapping="Wrap"
                 Text="{Binding Description, 
-                Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                IsReadOnly="{Binding IsReadOnly, 
+                Source={StaticResource _profitVM}, 
+                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock 
                 Grid.Column="0" Grid.Row="8" 
                 Text="Цена" Margin="15 0 0 0" 
@@ -130,9 +140,12 @@
                 HorizontalAlignment="Right"
                 FontWeight="Bold" Margin="0 0 15 0"
                 Foreground="{DynamicResource PrimaryHueMidBrush}"
-                IsReadOnly="True" Text="{Binding Price, 
+                Text="{Binding Price, 
                 Mode=TwoWay, UpdateSourceTrigger=LostFocus, 
-                StringFormat={}{0} BYN.}"/>
+                StringFormat={}{0} BYN.}" 
+                IsReadOnly="{Binding IsReadOnly, 
+                Source={StaticResource _profitVM}, 
+                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
     </Grid>
 </UserControl>
