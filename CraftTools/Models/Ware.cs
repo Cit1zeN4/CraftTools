@@ -26,7 +26,7 @@ namespace CraftTools.Models
         private object _image;
         private string _name;
         private string _description;
-        private float _price;
+        private double _price;
 
         #endregion
 
@@ -64,7 +64,7 @@ namespace CraftTools.Models
             }
         }
 
-        public float Price
+        public double Price
         {
             get => _price;
             set

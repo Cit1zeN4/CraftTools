@@ -28,9 +28,9 @@ namespace CraftTools.Models
         private object _image;
         private string _name;
         private string _description;
-        private float _price;
-        private float _length;
-        private float _width;
+        private double _price;
+        private double _length;
+        private double _width;
 
         #endregion
 
@@ -68,7 +68,7 @@ namespace CraftTools.Models
             }
         }
 
-        public float Price
+        public double Price
         {
             get => _price;
             set
@@ -81,7 +81,7 @@ namespace CraftTools.Models
             }
         }
 
-        public float Length
+        public double Length
         {
             get => _length;
             set
@@ -91,7 +91,7 @@ namespace CraftTools.Models
             }
         }
 
-        public float Width
+        public double Width
         {
             get => _width;
             set
