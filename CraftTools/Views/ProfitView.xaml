@@ -10,224 +10,289 @@
              d:DesignHeight="432" d:DesignWidth="688">
     
     <UserControl.Resources>
-        
+
         <viewModel:ProfitViewModel x:Key="_profitVM"/>
-        
+
     </UserControl.Resources>
-    
-    <Grid
-        x:Name="ProfitViewMainGrid">
-        
-        <Grid.RowDefinitions>
-            
-            <RowDefinition Height="50"/>
-            <RowDefinition/>
-            
-        </Grid.RowDefinitions>
-        
-        <Grid.ColumnDefinitions>
-            
-            <ColumnDefinition Width="10*"/>
-            <ColumnDefinition Width="{Binding EditBoxLength, Source={StaticResource _profitVM}}"/>
-        
-        </Grid.ColumnDefinitions>
-        
-        <ListBox
-            x:Name="ProfitCollectionList"
-            Grid.Column="0" Grid.Row="1"
-            HorizontalContentAlignment="Stretch" 
-            DataContext="{StaticResource _profitVM}" 
-            ItemsSource="{Binding Profits}"
-            SelectedItem="{Binding SelectedProfit, 
-            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            Background="{x:Null}"
-            materialDesign:RippleAssist.IsDisabled="True">
-            
-            <ListBox.ItemTemplate>
-                
-                <DataTemplate>
-                    
-                    <materialDesign:Card
-                        Background="{DynamicResource PrimaryHueMidBrush}"
-                        materialDesign:ShadowAssist.ShadowDepth="Depth3">
-                        
-                        <Grid 
-                            Margin="0 5 5 5" Height="60">
-                            
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="10*"/>
-                                <ColumnDefinition Width="2.3*"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <TextBlock 
-                                Foreground="White" Margin="10 0 0 5" 
-                                VerticalAlignment="Bottom" Grid.Row="0" 
-                                Grid.Column="0" Text="{Binding Name}"/>
-                            
-                            <TextBlock 
-                                Foreground="White" Margin="10 5 10 0" 
-                                VerticalAlignment="Top" Grid.Row="1" 
-                                Grid.Column="0" Text="{Binding Description}"
-                                Opacity="0.6"/>
-                            
-                            <TextBlock 
-                                Foreground="White" Margin="0 0 10 5" 
-                                Grid.Row="1" Grid.Column="1" 
-                                Text="{Binding Price, StringFormat={}{0} BYN}"/>
-                        </Grid>
-                        
-                    </materialDesign:Card>
-                    
-                </DataTemplate>
-                
-            </ListBox.ItemTemplate>
-            
-        </ListBox>
-        
-        <materialDesign:Card
-            x:Name="ProfitEditBox"
-            Grid.Column="1" Grid.Row="1"
-            Margin="0 8 0 0" VerticalAlignment="Stretch"
-            materialDesign:ShadowAssist.ShadowDepth="Depth3">
-            
-            <Grid
-                Background="{DynamicResource MaterialDesignPaper}"
-                DataContext="{Binding SelectedProfit, 
-                Source={StaticResource _profitVM}}">
-                
-                <Grid.ColumnDefinitions>
-                    
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    
-                </Grid.ColumnDefinitions>
-                
-                <Grid.RowDefinitions>
-                    
-                    <RowDefinition Height="4*"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="15"/>
-                    <RowDefinition Height="100"/>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="60"/>
-                    
-                </Grid.RowDefinitions>
-                
-                <materialDesign:Card 
-                    Grid.Column="0" Grid.ColumnSpan="2"
-                    Grid.Row="0" Grid.RowSpan="2"
-                    Background="{DynamicResource PrimaryHueMidBrush}"
-                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
-                    VerticalAlignment="Stretch">
-                    
-                    <StackPanel 
-                        Grid.Column="0" 
-                        Grid.ColumnSpan="2" 
-                        Grid.Row="0" 
-                        Grid.RowSpan="2"
-                        VerticalAlignment="Center" 
-                        HorizontalAlignment="Center">
-                        
-                        <TextBlock 
-                            Text="{Binding Id, 
-                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}Profit #{0}}" 
-                            Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" 
-                            FontSize="50"/>
-                        
-                    </StackPanel>
-                    
-                </materialDesign:Card>
-                
-                <Button 
-                    Grid.Column="1" Grid.Row="1" 
-                    Grid.RowSpan="2" Width="40" 
-                    Height="40" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"
-                    HorizontalAlignment="Right" 
-                    VerticalAlignment="Center" 
-                    Margin="0 0 35 0"
-                    materialDesign:ShadowAssist.ShadowDepth="Depth4"
-                    Command="{Binding SaveChanges, 
-                    Mode=OneWay, Source={StaticResource _profitVM}}"
-                    ToolTip="Редактировать">
-                    
-                    <materialDesign:PackIcon 
-                        Kind="{Binding EditBoxCurentIcon, 
-                        Source={StaticResource _profitVM}}" 
-                        Foreground="{DynamicResource SecondaryAccentForegroundBrush}"/>
-                
-                </Button>
-                
+
+    <materialDesign:DialogHost
+        Identifier="RootDialog" CloseOnClickAway="True">
+
+        <materialDesign:DialogHost.DialogContent>
+
+            <StackPanel Width="300">
+
+                <TextBlock 
+                    Text="Добавить элемент" 
+                    HorizontalAlignment="Center" 
+                    FontSize="18" FontWeight="Bold"
+                    Margin="0 15 0 0"
+                    Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+
                 <TextBox 
-                    Grid.Column="0" Grid.ColumnSpan="2" 
-                    Grid.Row="3" Margin="15 0 15 0"
-                    Text="{Binding Name, 
-                    Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
-                    IsReadOnly="{Binding IsReadOnly, 
-                    Source={StaticResource _profitVM}, 
-                    Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                    Margin="10"
                     materialDesign:HintAssist.Hint="Название"/>
                 
                 <TextBox 
-                    Grid.Column="0" Grid.ColumnSpan="2" 
-                    Grid.Row="5" Margin="15 0 15 0"
-                    TextWrapping="Wrap" VerticalAlignment="Top"
-                    Text="{Binding Description, 
-                    Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
-                    IsReadOnly="{Binding IsReadOnly, 
-                    Source={StaticResource _profitVM}, 
-                    Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                    Margin="10" TextWrapping="Wrap"
                     materialDesign:HintAssist.Hint="Описание"/>
-                
+
                 <StackPanel 
-                    Grid.Column="0" Grid.ColumnSpan="2" 
-                    Grid.Row="7" Orientation="Horizontal"
-                    HorizontalAlignment="Center">
-                    
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Center"
+                    Margin="0 10 0 10">
+
                     <TextBox 
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                        Margin="0 0 10 10" HorizontalAlignment="Stretch"
+                        materialDesign:HintAssist.Hint="Цена"/>
+
+                    <TextBlock 
+                        Text="BYN" 
+                        VerticalAlignment="Center"/>
+
+                </StackPanel>
+
+                <StackPanel 
+                    Margin="10" Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+
+                    <Button 
+                        Content="Add"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Margin="0 0 10 0" Width="80"/>
+                    
+                    <Button 
+                        Content="Cancel"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Margin="10 0 0 0" Width="80"
+                        Command="materialDesign:DialogHost.CloseDialogCommand"/>
+                    
+                </StackPanel>
+                
+            </StackPanel>
+            
+        </materialDesign:DialogHost.DialogContent>
+
+        <Grid
+            x:Name="ProfitViewMainGrid">
+
+            <Grid.RowDefinitions>
+
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="{Binding EditBoxLength, Source={StaticResource _profitVM}}"/>
+
+            </Grid.ColumnDefinitions>
+
+            <ListBox
+                x:Name="ProfitCollectionList"
+                Grid.Column="0" Grid.Row="1"
+                HorizontalContentAlignment="Stretch" 
+                DataContext="{StaticResource _profitVM}" 
+                ItemsSource="{Binding Profits}"
+                SelectedItem="{Binding SelectedProfit, 
+                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Background="{x:Null}"
+                materialDesign:RippleAssist.IsDisabled="True">
+
+                <ListBox.ItemTemplate>
+
+                    <DataTemplate>
+
+                        <materialDesign:Card
+                            Background="{DynamicResource PrimaryHueMidBrush}"
+                            materialDesign:ShadowAssist.ShadowDepth="Depth3">
+
+                            <Grid 
+                                Margin="0 5 5 5" Height="60">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10*"/>
+                                    <ColumnDefinition Width="2.3*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock 
+                                    Foreground="White" Margin="10 0 0 5" 
+                                    VerticalAlignment="Bottom" Grid.Row="0" 
+                                    Grid.Column="0" Text="{Binding Name}"/>
+
+                                <TextBlock 
+                                    Foreground="White" Margin="10 5 10 0" 
+                                    VerticalAlignment="Top" Grid.Row="1" 
+                                    Grid.Column="0" Text="{Binding Description}"
+                                    Opacity="0.6"/>
+
+                                <TextBlock 
+                                    Foreground="White" Margin="0 0 10 5" 
+                                    Grid.Row="1" Grid.Column="1" 
+                                    Text="{Binding Price, StringFormat={}{0} BYN}"/>
+                            </Grid>
+
+                        </materialDesign:Card>
+
+                    </DataTemplate>
+
+                </ListBox.ItemTemplate>
+
+            </ListBox>
+
+            <materialDesign:Card
+                x:Name="ProfitEditBox"
+                Grid.Column="1" Grid.Row="1"
+                Margin="0 8 0 0" VerticalAlignment="Stretch"
+                materialDesign:ShadowAssist.ShadowDepth="Depth3">
+
+                <Grid
+                    Background="{DynamicResource MaterialDesignPaper}"
+                    DataContext="{Binding SelectedProfit, 
+                    Source={StaticResource _profitVM}}">
+
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+
+                        <RowDefinition Height="4*"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="15"/>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="60"/>
+
+                    </Grid.RowDefinitions>
+
+                    <materialDesign:Card 
                         Grid.Column="0" Grid.ColumnSpan="2"
-                        Grid.Row="8"
-                        FontSize="28" VerticalAlignment="Center"
-                        FontWeight="Bold"
-                        Foreground="{DynamicResource PrimaryHueMidBrush}"
-                        Text="{Binding Price, 
+                        Grid.Row="0" Grid.RowSpan="2"
+                        Background="{DynamicResource PrimaryHueMidBrush}"
+                        materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                        VerticalAlignment="Stretch">
+
+                        <StackPanel 
+                            Grid.Column="0" 
+                            Grid.ColumnSpan="2" 
+                            Grid.Row="0" 
+                            Grid.RowSpan="2"
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Center">
+
+                            <TextBlock 
+                                Text="{Binding Id, 
+                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}Profit #{0}}" 
+                                Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" 
+                                FontSize="50"/>
+
+                        </StackPanel>
+
+                    </materialDesign:Card>
+
+                    <Button 
+                        Grid.Column="1" Grid.Row="1" 
+                        Grid.RowSpan="2" Width="40" 
+                        Height="40" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Center" 
+                        Margin="0 0 35 0"
+                        materialDesign:ShadowAssist.ShadowDepth="Depth4"
+                        Command="{Binding SaveChanges, 
+                        Mode=OneWay, Source={StaticResource _profitVM}}"
+                        ToolTip="Редактировать">
+
+                        <materialDesign:PackIcon 
+                            Kind="{Binding EditBoxCurentIcon, 
+                            Source={StaticResource _profitVM}}" 
+                            Foreground="{DynamicResource SecondaryAccentForegroundBrush}"/>
+
+                    </Button>
+
+                    <TextBox 
+                        Grid.Column="0" Grid.ColumnSpan="2" 
+                        Grid.Row="3" Margin="15 0 15 0"
+                        Text="{Binding Name, 
                         Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
                         IsReadOnly="{Binding IsReadOnly, 
                         Source={StaticResource _profitVM}, 
                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        materialDesign:HintAssist.Hint="Цена"/>
-                    
-                    <TextBlock 
-                        Text="BYN" FontSize="28"
-                        VerticalAlignment="Center"
-                        FontWeight="Bold"
-                        Margin="15 0 0 0"
-                        Foreground="{DynamicResource PrimaryHueMidBrush}"/>
-                
-                </StackPanel>
-                
-            </Grid>
-            
-        </materialDesign:Card>
-        
-        <StackPanel
-            Grid.Column="0" Grid.ColumnSpan="2"
-            Orientation="Horizontal">
-            
-            <Button 
-                Content="Добавить" 
-                Style="{StaticResource MaterialDesignFlatButton}"/>
-            
-        </StackPanel>
-        
-    </Grid>
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        materialDesign:HintAssist.Hint="Название"/>
+
+                    <TextBox 
+                        Grid.Column="0" Grid.ColumnSpan="2" 
+                        Grid.Row="5" Margin="15 0 15 0"
+                        TextWrapping="Wrap" VerticalAlignment="Top"
+                        Text="{Binding Description, 
+                        Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                        IsReadOnly="{Binding IsReadOnly, 
+                        Source={StaticResource _profitVM}, 
+                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        materialDesign:HintAssist.Hint="Описание"/>
+
+                    <StackPanel 
+                        Grid.Column="0" Grid.ColumnSpan="2" 
+                        Grid.Row="7" Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+
+                        <TextBox 
+                            Grid.Column="0" Grid.ColumnSpan="2"
+                            Grid.Row="8"
+                            FontSize="28" VerticalAlignment="Center"
+                            FontWeight="Bold"
+                            Foreground="{DynamicResource PrimaryHueMidBrush}"
+                            Text="{Binding Price, 
+                            Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                            IsReadOnly="{Binding IsReadOnly, 
+                            Source={StaticResource _profitVM}, 
+                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            materialDesign:HintAssist.Hint="Цена"/>
+
+                        <TextBlock 
+                            Text="BYN" FontSize="28"
+                            VerticalAlignment="Center"
+                            FontWeight="Bold"
+                            Margin="15 0 0 0"
+                            Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+            </materialDesign:Card>
+
+            <StackPanel
+                Grid.Column="0" Grid.ColumnSpan="2"
+                Orientation="Horizontal">
+
+                <Button 
+                    Content="Добавить" 
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"/>
+
+            </StackPanel>
+
+        </Grid>
+
+    </materialDesign:DialogHost>
     
 </UserControl>
