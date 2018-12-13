@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CraftTools.Models;
+using CraftTools.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,15 @@ namespace CraftTools.Views
         public ProfitView()
         {
             InitializeComponent();
+        }
+
+        private async void AddProfit_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
+        {
+            if (Equals(eventArgs.Parameter, true))
+            {
+                ProfitViewModel viewModel = (ProfitViewModel)ProfitViewMainGrid.DataContext;
+                await viewModel.AddProfitMethodAsync();
+            }
         }
     }
 }

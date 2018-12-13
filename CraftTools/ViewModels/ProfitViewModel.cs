@@ -1,5 +1,6 @@
 ﻿using CraftTools.Helpers;
 using CraftTools.Models;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace CraftTools.ViewModels
 {
@@ -35,7 +37,7 @@ namespace CraftTools.ViewModels
         public ProfitViewModel()
         {
             Profits = new ObservableCollection<Profit>();
-
+            AddedProfit = new Profit();
             using (context = new CraftToolsContext())
             {
                 foreach(Profit p in context.Profits)
@@ -49,8 +51,10 @@ namespace CraftTools.ViewModels
 
         #region Fields
 
+        ObservableCollection<Profit> profits;
         CraftToolsContext context;
         Profit selectedProfit;
+        Profit addedProfit;
         bool isReadOnly = true;
         string editBoxCurentIcon = "Pencil";
         GridLength editBoxLength = new GridLength(0);
@@ -59,7 +63,15 @@ namespace CraftTools.ViewModels
 
         #region Properties
 
-        public ObservableCollection<Profit> Profits { get; set; }
+        public ObservableCollection<Profit> Profits
+        {
+            get => profits;
+            set
+            {
+                profits = value;
+                OnPropertyChanged();
+            }
+        }
 
         public Profit SelectedProfit
         {
@@ -74,6 +86,16 @@ namespace CraftTools.ViewModels
             {
                 selectedProfit = value;
                 EditBoxLength = new GridLength(8, GridUnitType.Star);
+                OnPropertyChanged();
+            }
+        }
+
+        public Profit AddedProfit
+        {
+            get => addedProfit;
+            set
+            {
+                addedProfit = value;
                 OnPropertyChanged();
             }
         }
@@ -115,14 +137,16 @@ namespace CraftTools.ViewModels
         #region Command Fields
 
         BaseCommand saveChangesCmd;
+        BaseCommand addProfitCmd;
+        RoutedCommand closeDialogCmd;
 
         #endregion
 
         #region Command Properties
 
-        public BaseCommand SaveChanges
+        public BaseCommand SaveChangesCommand
         {
-            get => saveChangesCmd ?? (saveChangesCmd = new BaseCommand(obj => saveChangesMethod()));
+            get => saveChangesCmd ?? (saveChangesCmd = new BaseCommand(obj => saveChangesMethodAsync()));
         }
 
         #endregion
@@ -144,7 +168,7 @@ namespace CraftTools.ViewModels
                 profit.Price = SelectedProfit.Price;
         }
 
-        private void saveChangesMethod()
+        private async void saveChangesMethodAsync()
         {
             using (context = new CraftToolsContext())
             {
@@ -160,8 +184,26 @@ namespace CraftTools.ViewModels
                         .Where(x => x.Id == SelectedProfit.Id)
                         .FirstOrDefault();
                     comparison(ref prof);
-                    context.SaveChanges();
+                    await context.SaveChangesAsync();
                     EditBoxCurentIcon = "Pencil";
+                }
+            }
+        }
+
+        public async Task AddProfitMethodAsync()
+        {
+            using (context = new CraftToolsContext())
+            {
+                try
+                {
+                    context.Profits.Add(AddedProfit);
+                    await context.SaveChangesAsync();
+                    Profits.Add(new Profit { Name = AddedProfit.Name, Description = AddedProfit.Description, Price = AddedProfit.Price, Id = AddedProfit.Id });       
+                    AddedProfit.Clear();
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Ошибка добавление: " + ex.Source + " " + ex.Message);
                 }
             }
         }
