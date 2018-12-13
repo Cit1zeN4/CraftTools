@@ -69,5 +69,17 @@ namespace CraftTools.Models
         }
 
         #endregion
+
+        #region Methods
+
+        public void Clear()
+        {
+            Id = 0;
+            Name = null;
+            Description = null;
+            Price = 0;
+        }
+
+        #endregion
     }
 }

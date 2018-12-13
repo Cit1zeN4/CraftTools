@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:CraftTools.ViewModels"
              xmlns:local="clr-namespace:CraftTools.Views"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="432" d:DesignWidth="688">
@@ -16,7 +17,10 @@
     </UserControl.Resources>
 
     <materialDesign:DialogHost
-        Identifier="RootDialog" CloseOnClickAway="True">
+        Identifier="AddProfitDialog" 
+        CloseOnClickAway="True" 
+        DialogClosing="AddProfit_DialogClosing"
+        DataContext="{Binding AddedProfit, Source={StaticResource _profitVM}}">
 
         <materialDesign:DialogHost.DialogContent>
 
@@ -29,15 +33,19 @@
                     Margin="0 15 0 0"
                     Foreground="{DynamicResource PrimaryHueMidBrush}"/>
 
-                <TextBox 
+                <TextBox
+                    x:Name="AddedItemName"
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                     Margin="10"
-                    materialDesign:HintAssist.Hint="Название"/>
+                    materialDesign:HintAssist.Hint="Название"
+                    Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
                 
-                <TextBox 
+                <TextBox
+                    x:Name="AddedItemDescription"
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                     Margin="10" TextWrapping="Wrap"
-                    materialDesign:HintAssist.Hint="Описание"/>
+                    materialDesign:HintAssist.Hint="Описание"
+                    Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
 
                 <StackPanel 
                     Orientation="Horizontal" 
@@ -45,9 +53,11 @@
                     Margin="0 10 0 10">
 
                     <TextBox 
+                        x:Name="AddedItemPrice"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                         Margin="0 0 10 10" HorizontalAlignment="Stretch"
-                        materialDesign:HintAssist.Hint="Цена"/>
+                        materialDesign:HintAssist.Hint="Цена"
+                        Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
 
                     <TextBlock 
                         Text="BYN" 
@@ -63,8 +73,13 @@
                     <Button 
                         Content="Add"
                         Style="{StaticResource MaterialDesignFlatButton}"
-                        Margin="0 0 10 0" Width="80"/>
-                    
+                        Margin="0 0 10 0" Width="80" 
+                        Command="materialDesign:DialogHost.CloseDialogCommand">
+                        <Button.CommandParameter>
+                            <system:Boolean>True</system:Boolean>
+                        </Button.CommandParameter>
+                    </Button>
+
                     <Button 
                         Content="Cancel"
                         Style="{StaticResource MaterialDesignFlatButton}"
@@ -78,7 +93,8 @@
         </materialDesign:DialogHost.DialogContent>
 
         <Grid
-            x:Name="ProfitViewMainGrid">
+            x:Name="ProfitViewMainGrid"
+            DataContext="{StaticResource _profitVM}">
 
             <Grid.RowDefinitions>
 
@@ -215,7 +231,7 @@
                         VerticalAlignment="Center" 
                         Margin="0 0 35 0"
                         materialDesign:ShadowAssist.ShadowDepth="Depth4"
-                        Command="{Binding SaveChanges, 
+                        Command="{Binding SaveChangesCommand, 
                         Mode=OneWay, Source={StaticResource _profitVM}}"
                         ToolTip="Редактировать">
 
