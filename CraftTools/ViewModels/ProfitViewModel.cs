@@ -137,8 +137,7 @@ namespace CraftTools.ViewModels
         #region Command Fields
 
         BaseCommand saveChangesCmd;
-        BaseCommand addProfitCmd;
-        RoutedCommand closeDialogCmd;
+        BaseCommand deleteProfitsCmd;
 
         #endregion
 
@@ -147,6 +146,11 @@ namespace CraftTools.ViewModels
         public BaseCommand SaveChangesCommand
         {
             get => saveChangesCmd ?? (saveChangesCmd = new BaseCommand(obj => saveChangesMethodAsync()));
+        }
+
+        public BaseCommand DeleteProfitCommand
+        {
+            get => deleteProfitsCmd ?? (deleteProfitsCmd = new BaseCommand(obj => DeleteProfitMethod()));
         }
 
         #endregion
@@ -204,6 +208,24 @@ namespace CraftTools.ViewModels
                 catch(Exception ex)
                 {
                     MessageBox.Show("Ошибка добавление: " + ex.Source + " " + ex.Message);
+                }
+            }
+        }
+
+        public async void DeleteProfitMethod()
+        {
+            using (context = new CraftToolsContext())
+            {
+                try
+                {
+                    Profit prof = context.Profits.Where(o => o.Id == SelectedProfit.Id).FirstOrDefault();
+                    context.Profits.Remove(prof);
+                    await context.SaveChangesAsync();
+                    Profits.Remove(SelectedProfit);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Ошибка удаления: " + ex.Source + " " + ex.Message);
                 }
             }
         }

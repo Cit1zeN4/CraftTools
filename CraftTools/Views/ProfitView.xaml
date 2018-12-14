@@ -304,6 +304,10 @@
                     Content="Добавить" 
                     Style="{StaticResource MaterialDesignFlatButton}"
                     Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"/>
+                <Button
+                    Content="Удалить"
+                    Style="{StaticResource MaterialDesignFlatButton}" 
+                    Command="{Binding DeleteProfitCommand, Mode=OneWay}"/>
 
             </StackPanel>
 
