@@ -8,6 +8,7 @@
         xmlns:viewModels="clr-namespace:CraftTools.ViewModels"
         xmlns:view="clr-namespace:CraftTools.Views"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
@@ -37,7 +38,12 @@
             <Button
                 Style="{DynamicResource MaterialDesignFloatingActionButton}"
                 Width="40" Height="40" 
-                Margin="0 5 0 5">
+                Margin="0 5 0 5" 
+                Command="{Binding ChangeCurrentViewCommand, 
+                Mode=OneWay, Source={StaticResource _mainWindowVM}}">
+                <Button.CommandParameter>
+                    <system:Int32>1</system:Int32>
+                </Button.CommandParameter>
             </Button>
             <Button
                 Style="{DynamicResource MaterialDesignFloatingActionButton}"
@@ -62,6 +68,6 @@
         </StackPanel>
         <ContentControl 
             Margin="0 5 5 5" Grid.Column="1" 
-            Content="{StaticResource _profitView}"/>
+            Content="{Binding CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={StaticResource _mainWindowVM}}"/>
     </Grid>
 </Window>
