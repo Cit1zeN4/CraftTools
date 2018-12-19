@@ -304,11 +304,13 @@
                 <Button 
                     Content="Добавить" 
                     Style="{StaticResource MaterialDesignFlatButton}"
-                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"/>
+                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                    IsEnabled="{Binding IsDataLoaded}"/>
                 <Button
                     Content="Удалить"
                     Style="{StaticResource MaterialDesignFlatButton}" 
-                    Command="{Binding DeleteProfitCommand, Mode=OneWay}"/>
+                    Command="{Binding DeleteProfitCommand, Mode=OneWay}"
+                    IsEnabled="{Binding IsDataLoaded}"/>
 
             </StackPanel>
 

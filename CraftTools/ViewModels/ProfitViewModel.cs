@@ -37,7 +37,6 @@ namespace CraftTools.ViewModels
 
         public ProfitViewModel()
         {
-            IsDataLoaded = false;
             AddedProfit = new Profit();
         }
 
@@ -50,6 +49,7 @@ namespace CraftTools.ViewModels
         Profit selectedProfit;
         Profit addedProfit;
         bool isReadOnly = true;
+        bool isDataLoaded = false;
         string editBoxCurentIcon = "Pencil";
         GridLength editBoxLength = new GridLength(0);
 
@@ -94,6 +94,16 @@ namespace CraftTools.ViewModels
             }
         }
 
+        public bool IsDataLoaded
+        {
+            get => isDataLoaded;
+            set
+            {
+                isDataLoaded = value;
+                OnPropertyChanged();
+            }
+        }
+
         public bool IsReadOnly
         {
             get => isReadOnly;
@@ -124,8 +134,6 @@ namespace CraftTools.ViewModels
             }
         }
 
-        public bool IsDataLoaded { get; set; }
-
         #endregion
 
         #region Methods
@@ -138,6 +146,7 @@ namespace CraftTools.ViewModels
                list = await context.Profits.ToListAsync();
             }
             Profits = new ObservableCollection<Profit>(list);
+            IsDataLoaded = true;
         }
 
         #endregion

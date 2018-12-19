@@ -46,7 +46,6 @@ namespace CraftTools.Views
                     System.ComponentModel.BackgroundWorker worker = new System.ComponentModel.BackgroundWorker();
                     worker.DoWork += (obj, ea) => viewModel.LoadData();
                     worker.RunWorkerAsync();
-                    viewModel.IsDataLoaded = true;
                 }
             }
         }
