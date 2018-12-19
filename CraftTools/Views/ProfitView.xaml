@@ -8,7 +8,8 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="432" d:DesignWidth="688">
+             d:DesignHeight="432" d:DesignWidth="688"
+             Loaded="UserControl_Loaded">
     
     <UserControl.Resources>
 
@@ -303,11 +304,13 @@
                 <Button 
                     Content="Добавить" 
                     Style="{StaticResource MaterialDesignFlatButton}"
-                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"/>
+                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                    IsEnabled="{Binding IsDataLoaded}"/>
                 <Button
                     Content="Удалить"
                     Style="{StaticResource MaterialDesignFlatButton}" 
-                    Command="{Binding DeleteProfitCommand, Mode=OneWay}"/>
+                    Command="{Binding DeleteProfitCommand, Mode=OneWay}"
+                    IsEnabled="{Binding IsDataLoaded}"/>
 
             </StackPanel>
 

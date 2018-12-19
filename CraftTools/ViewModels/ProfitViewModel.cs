@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Data.Entity;
 
 namespace CraftTools.ViewModels
 {
@@ -36,15 +37,7 @@ namespace CraftTools.ViewModels
 
         public ProfitViewModel()
         {
-            Profits = new ObservableCollection<Profit>();
             AddedProfit = new Profit();
-            using (context = new CraftToolsContext())
-            {
-                foreach(Profit p in context.Profits)
-                {
-                    Profits.Add(p);
-                }
-            }
         }
 
         #endregion
@@ -56,6 +49,7 @@ namespace CraftTools.ViewModels
         Profit selectedProfit;
         Profit addedProfit;
         bool isReadOnly = true;
+        bool isDataLoaded = false;
         string editBoxCurentIcon = "Pencil";
         GridLength editBoxLength = new GridLength(0);
 
@@ -100,6 +94,16 @@ namespace CraftTools.ViewModels
             }
         }
 
+        public bool IsDataLoaded
+        {
+            get => isDataLoaded;
+            set
+            {
+                isDataLoaded = value;
+                OnPropertyChanged();
+            }
+        }
+
         public bool IsReadOnly
         {
             get => isReadOnly;
@@ -128,6 +132,21 @@ namespace CraftTools.ViewModels
                 editBoxLength = value;
                 OnPropertyChanged();
             }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public async void LoadData()
+        {
+            List<Profit> list;
+            using (context = new CraftToolsContext())
+            {
+               list = await context.Profits.ToListAsync();
+            }
+            Profits = new ObservableCollection<Profit>(list);
+            IsDataLoaded = true;
         }
 
         #endregion
