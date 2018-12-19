@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Data.Entity;
 
 namespace CraftTools.ViewModels
 {
@@ -36,15 +37,8 @@ namespace CraftTools.ViewModels
 
         public ProfitViewModel()
         {
-            Profits = new ObservableCollection<Profit>();
+            IsDataLoaded = false;
             AddedProfit = new Profit();
-            using (context = new CraftToolsContext())
-            {
-                foreach(Profit p in context.Profits)
-                {
-                    Profits.Add(p);
-                }
-            }
         }
 
         #endregion
@@ -128,6 +122,22 @@ namespace CraftTools.ViewModels
                 editBoxLength = value;
                 OnPropertyChanged();
             }
+        }
+
+        public bool IsDataLoaded { get; set; }
+
+        #endregion
+
+        #region Methods
+
+        public async void LoadData()
+        {
+            List<Profit> list;
+            using (context = new CraftToolsContext())
+            {
+               list = await context.Profits.ToListAsync();
+            }
+            Profits = new ObservableCollection<Profit>(list);
         }
 
         #endregion

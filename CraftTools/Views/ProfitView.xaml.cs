@@ -35,5 +35,20 @@ namespace CraftTools.Views
                 await viewModel.AddProfitMethodAsync();
             }
         }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if(IsLoaded)
+            {
+                ProfitViewModel viewModel = (ProfitViewModel)ProfitViewMainGrid.DataContext;
+                if (!viewModel.IsDataLoaded)
+                {
+                    System.ComponentModel.BackgroundWorker worker = new System.ComponentModel.BackgroundWorker();
+                    worker.DoWork += (obj, ea) => viewModel.LoadData();
+                    worker.RunWorkerAsync();
+                    viewModel.IsDataLoaded = true;
+                }
+            }
+        }
     }
 }
