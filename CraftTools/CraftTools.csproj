@@ -75,10 +75,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\LossViewModel.cs" />
     <Compile Include="ViewModels\ProfitViewModel.cs" />
+    <Compile Include="Views\LossView.xaml.cs">
+      <DependentUpon>LossView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ProfitView.xaml.cs">
       <DependentUpon>ProfitView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\LossView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
