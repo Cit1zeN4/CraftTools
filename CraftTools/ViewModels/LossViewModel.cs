@@ -1,21 +1,19 @@
 ﻿using CraftTools.Helpers;
 using CraftTools.Models;
-using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
-using System.Data.Entity;
 
 namespace CraftTools.ViewModels
 {
-    public class ProfitViewModel : INotifyPropertyChanged
+    class LossViewModel : INotifyPropertyChanged
     {
         #region PropertyChanged
 
@@ -35,19 +33,19 @@ namespace CraftTools.ViewModels
 
         #region Constructors
 
-        public ProfitViewModel()
+        public LossViewModel()
         {
-            AddedProfit = new Profit();
+            AddedLoss = new Loss();
         }
 
         #endregion
 
         #region Fields
 
-        ObservableCollection<Profit> profits;
+        ObservableCollection<Loss> losses;
         CraftToolsContext context;
-        Profit selectedProfit;
-        Profit addedProfit;
+        Loss selectedLoss;
+        Loss addedLoss;
         bool isReadOnly = true;
         bool isDataLoaded = false;
         string editBoxCurentIcon = "Pencil";
@@ -57,39 +55,39 @@ namespace CraftTools.ViewModels
 
         #region Properties
 
-        public ObservableCollection<Profit> Profits
+        public ObservableCollection<Loss> Losses
         {
-            get => profits;
+            get => losses;
             set
             {
-                profits = value;
+                losses = value;
                 OnPropertyChanged();
             }
         }
 
-        public Profit SelectedProfit
+        public Loss SelectedLoss
         {
             get
             {
-                if (selectedProfit == null)
+                if (selectedLoss == null)
                     return null;
                 else
-                    return selectedProfit;
+                    return selectedLoss;
             }
             set
             {
-                selectedProfit = value;
+                selectedLoss = value;
                 EditBoxLength = new GridLength(8, GridUnitType.Star);
                 OnPropertyChanged();
             }
         }
 
-        public Profit AddedProfit
+        public Loss AddedLoss
         {
-            get => addedProfit;
+            get => addedLoss;
             set
             {
-                addedProfit = value;
+                addedLoss = value;
                 OnPropertyChanged();
             }
         }
@@ -140,12 +138,12 @@ namespace CraftTools.ViewModels
 
         public async void LoadData()
         {
-            List<Profit> list;
+            List<Loss> list;
             using (context = new CraftToolsContext())
             {
-               list = await context.Profits.ToListAsync();
+                list = await context.Losses.ToListAsync();
             }
-            Profits = new ObservableCollection<Profit>(list);
+            Losses = new ObservableCollection<Loss>(list);
             IsDataLoaded = true;
         }
 
@@ -156,7 +154,7 @@ namespace CraftTools.ViewModels
         #region Command Fields
 
         BaseCommand saveChangesCmd;
-        BaseCommand deleteProfitsCmd;
+        BaseCommand deleteLosssCmd;
 
         #endregion
 
@@ -167,28 +165,28 @@ namespace CraftTools.ViewModels
             get => saveChangesCmd ?? (saveChangesCmd = new BaseCommand(obj => saveChangesMethodAsync()));
         }
 
-        public BaseCommand DeleteProfitCommand
+        public BaseCommand DeleteLossCommand
         {
-            get => deleteProfitsCmd ?? (deleteProfitsCmd = new BaseCommand(obj => DeleteProfitMethod()));
+            get => deleteLosssCmd ?? (deleteLosssCmd = new BaseCommand(obj => DeleteLossMethod()));
         }
 
         #endregion
 
         #region Command Methods
 
-        private void Comparison(ref Profit profit)
+        private void Comparison(ref Loss loss)
         {
-            if (profit.Id != SelectedProfit.Id)
-                profit.Id = SelectedProfit.Id;
+            if (loss.Id != SelectedLoss.Id)
+                loss.Id = SelectedLoss.Id;
 
-            if (profit.Name != SelectedProfit.Name)
-                profit.Name = SelectedProfit.Name;
+            if (loss.Name != SelectedLoss.Name)
+                loss.Name = SelectedLoss.Name;
 
-            if (profit.Description != SelectedProfit.Description)
-                profit.Description = SelectedProfit.Description;
+            if (loss.Description != SelectedLoss.Description)
+                loss.Description = SelectedLoss.Description;
 
-            if (profit.Price != SelectedProfit.Price)
-                profit.Price = SelectedProfit.Price;
+            if (loss.Price != SelectedLoss.Price)
+                loss.Price = SelectedLoss.Price;
         }
 
         private async void saveChangesMethodAsync()
@@ -203,46 +201,46 @@ namespace CraftTools.ViewModels
                 else
                 {
                     IsReadOnly = true;
-                    var prof = context.Profits
-                        .Where(x => x.Id == SelectedProfit.Id)
+                    var loss = context.Losses
+                        .Where(x => x.Id == SelectedLoss.Id)
                         .FirstOrDefault();
-                    Comparison(ref prof);
+                    Comparison(ref loss);
                     await context.SaveChangesAsync();
                     EditBoxCurentIcon = "Pencil";
                 }
             }
         }
 
-        public async Task AddProfitMethodAsync()
+        public async Task AddLossMethodAsync()
         {
             using (context = new CraftToolsContext())
             {
                 try
                 {
-                    context.Profits.Add(AddedProfit);
+                    context.Losses.Add(AddedLoss);
                     await context.SaveChangesAsync();
-                    Profits.Add(new Profit { Name = AddedProfit.Name, Description = AddedProfit.Description, Price = AddedProfit.Price, Id = AddedProfit.Id });       
-                    AddedProfit.Clear();
+                    Losses.Add(new Loss { Name = AddedLoss.Name, Description = AddedLoss.Description, Price = AddedLoss.Price, Id = AddedLoss.Id });
+                    AddedLoss.Clear();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("Ошибка добавление: " + ex.Source + " " + ex.Message);
                 }
             }
         }
 
-        public async void DeleteProfitMethod()
+        public async void DeleteLossMethod()
         {
             using (context = new CraftToolsContext())
             {
                 try
                 {
-                    Profit prof = context.Profits.Where(o => o.Id == SelectedProfit.Id).FirstOrDefault();
-                    context.Profits.Remove(prof);
+                    Loss prof = context.Losses.Where(o => o.Id == SelectedLoss.Id).FirstOrDefault();
+                    context.Losses.Remove(prof);
                     await context.SaveChangesAsync();
-                    Profits.Remove(SelectedProfit);
+                    Losses.Remove(SelectedLoss);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("Ошибка удаления: " + ex.Source + " " + ex.Message);
                 }

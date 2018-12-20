@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace CraftTools.ViewModels
@@ -75,6 +76,12 @@ namespace CraftTools.ViewModels
             {
                 case 1:
                     CurrentView = new ProfitView();
+                    break;
+                case 2:
+                    CurrentView = new LossView();
+                    break;
+                default:
+                    MessageBox.Show("Ошибка открытия view");
                     break;
             }
         }

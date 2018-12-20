@@ -48,7 +48,10 @@
             <Button
                 Style="{DynamicResource MaterialDesignFloatingActionButton}"
                 Width="40" Height="40" 
-                Margin="0 5 0 5">
+                Margin="0 5 0 5" Command="{Binding ChangeCurrentViewCommand, Mode=OneWay, Source={StaticResource _mainWindowVM}}">
+                <Button.CommandParameter>
+                    <system:Int32>2</system:Int32>
+                </Button.CommandParameter>
             </Button>
             <Button
                 Style="{DynamicResource MaterialDesignFloatingActionButton}"
