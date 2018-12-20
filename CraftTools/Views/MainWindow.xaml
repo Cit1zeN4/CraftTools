@@ -44,6 +44,7 @@
                 <Button.CommandParameter>
                     <system:Int32>1</system:Int32>
                 </Button.CommandParameter>
+                <materialDesign:PackIcon Kind="CurrencyUsd" Width="30" Height="30"/>
             </Button>
             <Button
                 Style="{DynamicResource MaterialDesignFloatingActionButton}"
@@ -52,6 +53,7 @@
                 <Button.CommandParameter>
                     <system:Int32>2</system:Int32>
                 </Button.CommandParameter>
+                <materialDesign:PackIcon Kind="CurrencyUsdOff" Width="30" Height="30"/>
             </Button>
             <Button
                 Style="{DynamicResource MaterialDesignFloatingActionButton}"
