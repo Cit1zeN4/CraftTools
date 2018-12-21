@@ -23,7 +23,7 @@ namespace CraftTools.Models
 
         #region Fields
 
-        private object _image;
+        private byte[] _image;
         private string _name;
         private string _description;
         private double _price;
@@ -34,7 +34,7 @@ namespace CraftTools.Models
 
         public int Id { get; set; }
 
-        public object Image
+        public byte[] Image
         {
             get => _image;
             set

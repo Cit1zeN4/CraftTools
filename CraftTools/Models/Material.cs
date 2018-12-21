@@ -25,7 +25,7 @@ namespace CraftTools.Models
 
         #region Fields
 
-        private object _image;
+        private byte[] _image;
         private string _name;
         private string _description;
         private double _price;
@@ -38,7 +38,7 @@ namespace CraftTools.Models
 
         public int Id { get; set; }
 
-        public object Image
+        public byte[] Image
         {
             get => _image;
             set
@@ -102,6 +102,19 @@ namespace CraftTools.Models
         }
 
         public bool HaveSize { get; set; }
+
+        #endregion
+
+        #region Methods
+
+        public void Clear()
+        {
+            Id = 0;
+            Image = null; 
+            Name = null;
+            Description = null;
+            Price = 0;
+        }
 
         #endregion
     }

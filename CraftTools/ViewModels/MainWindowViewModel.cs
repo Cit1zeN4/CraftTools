@@ -80,6 +80,9 @@ namespace CraftTools.ViewModels
                 case 2:
                     CurrentView = new LossView();
                     break;
+                case 3:
+                    CurrentView = new MaterialView();
+                    break;
                 default:
                     MessageBox.Show("Ошибка открытия view");
                     break;
