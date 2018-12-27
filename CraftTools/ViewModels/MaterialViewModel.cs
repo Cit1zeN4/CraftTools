@@ -9,7 +9,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
+using Windows = System.Windows;
 
 namespace CraftTools.ViewModels
 {
@@ -49,7 +49,7 @@ namespace CraftTools.ViewModels
         bool isReadOnly = true;
         bool isDataLoaded = false;
         string editBoxCurentIcon = "Pencil";
-        GridLength editBoxLength = new GridLength(0);
+        Windows.GridLength editBoxLength = new Windows.GridLength(0);
 
         #endregion
 
@@ -77,7 +77,7 @@ namespace CraftTools.ViewModels
             set
             {
                 selectedMaterial = value;
-                EditBoxLength = new GridLength(8, GridUnitType.Star);
+                EditBoxLength = new Windows.GridLength(8, Windows.GridUnitType.Star);
                 OnPropertyChanged();
             }
         }
@@ -122,7 +122,7 @@ namespace CraftTools.ViewModels
             }
         }
 
-        public GridLength EditBoxLength
+        public Windows.GridLength EditBoxLength
         {
             get => editBoxLength;
             set
@@ -227,7 +227,7 @@ namespace CraftTools.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Ошибка добавление: " + ex.Source + " " + ex.Message);
+                    Windows.MessageBox.Show("Ошибка добавление: " + ex.Source + " " + ex.Message);
                 }
             }
         }
@@ -245,7 +245,7 @@ namespace CraftTools.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Ошибка удаления: " + ex.Source + " " + ex.Message);
+                    Windows.MessageBox.Show("Ошибка удаления: " + ex.Source + " " + ex.Message);
                 }
             }
         }
