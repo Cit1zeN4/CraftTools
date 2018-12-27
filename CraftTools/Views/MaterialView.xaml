@@ -25,71 +25,129 @@
 
         <materialDesign:DialogHost.DialogContent>
 
-            <StackPanel Width="300">
-                <!--Пописать выбор изображения-->
-                <TextBlock 
-                    Text="Добавить элемент" 
-                    HorizontalAlignment="Center" 
-                    FontSize="18" FontWeight="Bold"
-                    Margin="0 15 0 0"
-                    Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+            <Grid>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
 
-                <TextBox
-                    x:Name="AddedItemName"
-                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                    Margin="10"
-                    materialDesign:HintAssist.Hint="Название"
-                    Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                <materialDesign:Card
+                    Background="{DynamicResource PrimaryHueMidBrush}"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                    Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                <TextBox
-                    x:Name="AddedItemDescription"
-                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                    Margin="10" TextWrapping="Wrap"
-                    materialDesign:HintAssist.Hint="Описание"
-                    Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                    <Grid
+                        VerticalAlignment="Stretch" 
+                        HorizontalAlignment="Stretch">
 
-                <StackPanel 
-                    Orientation="Horizontal" 
-                    HorizontalAlignment="Center"
-                    Margin="0 10 0 10">
+                        <Grid.Background>
+                            <ImageBrush ImageSource="{Binding Image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="UniformToFill"/>
+                        </Grid.Background>
 
-                    <TextBox 
-                        x:Name="AddedItemPrice"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                        Margin="0 0 10 10" HorizontalAlignment="Stretch"
-                        materialDesign:HintAssist.Hint="Цена"
-                        Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                        <Button
+                             Height="Auto"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"
+                             Background="{x:Null}"
+                             BorderBrush="{x:Null}" 
+                             Command="{Binding AddMaterialImageCommand, 
+                             Mode=OneWay, Source={StaticResource _materialVM}}">
+
+                            <Button.CommandParameter>
+                                <system:Int32>2</system:Int32>
+                            </Button.CommandParameter>
+
+                            <Grid>
+                                <materialDesign:PackIcon 
+                                    Kind="ImagePlus" Margin="0 25 0 25"
+                                    Height="Auto" Width="Auto"/>
+                            </Grid>
+
+                        </Button>
+
+                    </Grid>
+
+
+                </materialDesign:Card>
+
+                <Image 
+                    Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
+                    Height="300" Width="300" Stretch="UniformToFill" 
+                    Source="{Binding Image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <StackPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"  Width="300">
 
                     <TextBlock 
-                        Text="BYN" 
-                        VerticalAlignment="Center"/>
+                        Text="Добавить элемент" 
+                        HorizontalAlignment="Center" 
+                        FontSize="18" FontWeight="Bold"
+                        Margin="0 15 0 0"
+                        Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+
+                    <TextBox
+                        x:Name="AddedItemName"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                        Margin="10"
+                        materialDesign:HintAssist.Hint="Название"
+                        Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+
+                    <TextBox
+                        x:Name="AddedItemDescription"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                        Margin="10" TextWrapping="Wrap"
+                        materialDesign:HintAssist.Hint="Описание"
+                        Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                        MaxLines="20"/>
+
+                    <StackPanel 
+                        Orientation="Horizontal" 
+                        HorizontalAlignment="Center"
+                        Margin="0 10 0 10">
+
+                        <TextBox 
+                            x:Name="AddedItemPrice"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                            Margin="0 0 10 10" HorizontalAlignment="Stretch"
+                            materialDesign:HintAssist.Hint="Цена"
+                            Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+
+                        <TextBlock 
+                            Text="BYN" 
+                            VerticalAlignment="Center"/>
+
+                    </StackPanel>
+
+                    <StackPanel 
+                        Margin="10" Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+
+                        <Button 
+                            Content="Add"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Margin="0 0 10 0" Width="80" 
+                            Command="materialDesign:DialogHost.CloseDialogCommand">
+                            <Button.CommandParameter>
+                                <system:Boolean>True</system:Boolean>
+                            </Button.CommandParameter>
+                        </Button>
+
+                        <Button 
+                            Content="Cancel"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Margin="10 0 0 0" Width="80"
+                            Command="materialDesign:DialogHost.CloseDialogCommand"/>
+                    </StackPanel>
 
                 </StackPanel>
-
-                <StackPanel 
-                    Margin="10" Orientation="Horizontal"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-
-                    <Button 
-                        Content="Add"
-                        Style="{StaticResource MaterialDesignFlatButton}"
-                        Margin="0 0 10 0" Width="80" 
-                        Command="materialDesign:DialogHost.CloseDialogCommand">
-                        <Button.CommandParameter>
-                            <system:Boolean>True</system:Boolean>
-                        </Button.CommandParameter>
-                    </Button>
-
-                    <Button 
-                        Content="Cancel"
-                        Style="{StaticResource MaterialDesignFlatButton}"
-                        Margin="10 0 0 0" Width="80"
-                        Command="materialDesign:DialogHost.CloseDialogCommand"/>
-
-                </StackPanel>
-
-            </StackPanel>
+                
+            </Grid>
 
         </materialDesign:DialogHost.DialogContent>
 
@@ -229,7 +287,6 @@
                             <Image Source="{Binding Image}" Stretch="UniformToFill"/>
 
                             <Grid
-                                x:Name="ButtonGrid"
                                 VerticalAlignment="Stretch" 
                                 HorizontalAlignment="Stretch">
 
@@ -243,6 +300,10 @@
                                     Command="{Binding AddMaterialImageCommand, 
                                     Mode=OneWay, Source={StaticResource _materialVM}}">
 
+                                    <Button.CommandParameter>
+                                        <system:Int32>1</system:Int32>
+                                    </Button.CommandParameter>
+                                    
                                     <Grid>
                                         <materialDesign:PackIcon 
                                         Kind="ImagePlus" Margin="0 25 0 25"

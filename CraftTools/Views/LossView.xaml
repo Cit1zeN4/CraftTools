@@ -46,7 +46,8 @@
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                     Margin="10" TextWrapping="Wrap"
                     materialDesign:HintAssist.Hint="Описание"
-                    Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                    Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                    MaxLines="20"/>
 
                 <StackPanel 
                     Orientation="Horizontal" 

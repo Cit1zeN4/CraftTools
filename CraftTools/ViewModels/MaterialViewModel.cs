@@ -166,7 +166,7 @@ namespace CraftTools.ViewModels
         #region Command Fields
 
         BaseCommand saveChangesCmd;
-        BaseCommand deleteProfitsCmd;
+        BaseCommand deleteMaterialCmd;
         BaseCommand addMaterialImageCmd;
 
         #endregion
@@ -178,14 +178,14 @@ namespace CraftTools.ViewModels
             get => saveChangesCmd ?? (saveChangesCmd = new BaseCommand(obj => SaveChangesMethodAsync()));
         }
 
-        public BaseCommand DeleteProfitCommand
+        public BaseCommand DeleteMaterialCommand
         {
-            get => deleteProfitsCmd ?? (deleteProfitsCmd = new BaseCommand(obj => DeleteMaterialMethod()));
+            get => deleteMaterialCmd ?? (deleteMaterialCmd = new BaseCommand(obj => DeleteMaterialMethod()));
         }
 
         public BaseCommand AddMaterialImageCommand
         {
-            get => addMaterialImageCmd ?? (addMaterialImageCmd = new BaseCommand(obj => AddMaterilImageMethod()));
+            get => addMaterialImageCmd ?? (addMaterialImageCmd = new BaseCommand(obj => AddMaterilImageMethod((int)obj)));
         }
 
         #endregion
@@ -270,7 +270,7 @@ namespace CraftTools.ViewModels
             }
         }
 
-        private void AddMaterilImageMethod()
+        private void AddMaterilImageMethod(int i)
         {
             OpenFileDialog ofd = new OpenFileDialog
             {
@@ -279,7 +279,18 @@ namespace CraftTools.ViewModels
             };
             if (ofd.ShowDialog() == true)
             {
-                SelectedMaterial.Image = Tools.ImageToByteArrayFromFilePath(ofd.FileName);
+                switch(i)
+                {
+                    case 1:
+                        SelectedMaterial.Image = Tools.ImageToByteArrayFromFilePath(ofd.FileName);
+                        break;
+                    case 2:
+                        AddedMaterial.Image = Tools.ImageToByteArrayFromFilePath(ofd.FileName);
+                        break;
+                    default:
+                        MessageBox.Show("Ошибка добавления изображения");
+                        break;
+                }
             }
         }
 
