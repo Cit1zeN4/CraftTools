@@ -10,7 +10,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Loaded="UserControl_Loaded">
-    
+
     <UserControl.Resources>
 
         <viewModel:MaterialViewModel x:Key="_materialVM"/>
@@ -206,7 +206,7 @@
                         materialDesign:ShadowAssist.ShadowDepth="Depth3"
                         VerticalAlignment="Stretch">
 
-                        <Grid>
+                        <Grid x:Name="grid">
                             <StackPanel 
                                 Grid.Column="0" 
                                 Grid.ColumnSpan="2" 
@@ -220,23 +220,34 @@
                                     Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}Material #{0}}" 
                                     Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" 
                                     FontSize="50"/>
+                                
                             </StackPanel>
-                            
-                            <StackPanel
-                                x:Name="ButtonStack"
+
+                            <Grid
+                                x:Name="ButtonGrid"
                                 Grid.Column="0" 
                                 Grid.ColumnSpan="2" 
                                 Grid.Row="0" 
                                 Grid.RowSpan="2"
-                                VerticalAlignment="Center" 
-                                HorizontalAlignment="Center">
+                                VerticalAlignment="Stretch" 
+                                HorizontalAlignment="Stretch">
 
                                 <Button
-                                    Height="{Binding Height, ElementName=ButtonStack}"
-                                    Width="{Binding Width, ElementName=ButtonStack}"
-                                    Content="Hello"/>
+                                    Height="Auto"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Background="#99323232" 
+                                    BorderBrush="{x:Null}">
 
-                            </StackPanel>
+                                    <Grid>
+                                        <materialDesign:PackIcon 
+                                        Kind="ImagePlus" Margin="0 25 0 25"
+                                        Height="Auto" Width="Auto"/>
+                                    </Grid>
+                                    
+                                </Button>
+
+                            </Grid>
                         </Grid>
 
                     </materialDesign:Card>
