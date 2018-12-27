@@ -131,7 +131,7 @@
                             materialDesign:ShadowAssist.ShadowDepth="Depth3">
 
                             <Grid 
-                                Margin="0 5 5 5" Height="60">
+                                Height="60">
 
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
@@ -139,24 +139,30 @@
                                 </Grid.RowDefinitions>
 
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60"/>
                                     <ColumnDefinition Width="10*"/>
                                     <ColumnDefinition Width="2.3*"/>
                                 </Grid.ColumnDefinitions>
 
+                                <Image 
+                                    Grid.Column="0" Grid.Row="0" 
+                                    Grid.RowSpan="2" Source="{Binding Image}"
+                                    Stretch="UniformToFill"/>
+
                                 <TextBlock 
                                     Foreground="White" Margin="10 0 0 5" 
                                     VerticalAlignment="Bottom" Grid.Row="0" 
-                                    Grid.Column="0" Text="{Binding Name}"/>
+                                    Grid.Column="1" Text="{Binding Name}"/>
 
                                 <TextBlock 
                                     Foreground="White" Margin="10 5 10 0" 
                                     VerticalAlignment="Top" Grid.Row="1" 
-                                    Grid.Column="0" Text="{Binding Description}"
+                                    Grid.Column="1" Text="{Binding Description}"
                                     Opacity="0.6"/>
 
                                 <TextBlock 
                                     Foreground="White" Margin="0 0 10 5" 
-                                    Grid.Row="1" Grid.Column="1" 
+                                    Grid.Row="1" Grid.Column="2" 
                                     Text="{Binding Price, StringFormat={}{0} BYN}"/>
                             </Grid>
 
@@ -209,10 +215,6 @@
                         <Grid x:Name="grid">
                             
                             <StackPanel 
-                                Grid.Column="0" 
-                                Grid.ColumnSpan="2" 
-                                Grid.Row="0" 
-                                Grid.RowSpan="2"
                                 VerticalAlignment="Center" 
                                 HorizontalAlignment="Center">
 
@@ -224,14 +226,10 @@
                                 
                             </StackPanel>
 
-                            <Image Source="{Binding Image}"/>
+                            <Image Source="{Binding Image}" Stretch="UniformToFill"/>
 
                             <Grid
                                 x:Name="ButtonGrid"
-                                Grid.Column="0" 
-                                Grid.ColumnSpan="2" 
-                                Grid.Row="0" 
-                                Grid.RowSpan="2"
                                 VerticalAlignment="Stretch" 
                                 HorizontalAlignment="Stretch">
 
@@ -241,7 +239,9 @@
                                     VerticalAlignment="Stretch"
                                     Background="#99323232" 
                                     BorderBrush="{x:Null}"
-                                    Visibility="{Binding IsVisible, Source={StaticResource _materialVM}}">
+                                    Visibility="{Binding IsVisible, Source={StaticResource _materialVM}}" 
+                                    Command="{Binding AddMaterialImageCommand, 
+                                    Mode=OneWay, Source={StaticResource _materialVM}}">
 
                                     <Grid>
                                         <materialDesign:PackIcon 

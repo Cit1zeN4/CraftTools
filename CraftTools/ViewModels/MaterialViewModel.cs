@@ -1,5 +1,6 @@
 ﻿using CraftTools.Helpers;
 using CraftTools.Models;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -166,6 +167,7 @@ namespace CraftTools.ViewModels
 
         BaseCommand saveChangesCmd;
         BaseCommand deleteProfitsCmd;
+        BaseCommand addMaterialImageCmd;
 
         #endregion
 
@@ -173,12 +175,17 @@ namespace CraftTools.ViewModels
 
         public BaseCommand SaveChangesCommand
         {
-            get => saveChangesCmd ?? (saveChangesCmd = new BaseCommand(obj => saveChangesMethodAsync()));
+            get => saveChangesCmd ?? (saveChangesCmd = new BaseCommand(obj => SaveChangesMethodAsync()));
         }
 
         public BaseCommand DeleteProfitCommand
         {
             get => deleteProfitsCmd ?? (deleteProfitsCmd = new BaseCommand(obj => DeleteMaterialMethod()));
+        }
+
+        public BaseCommand AddMaterialImageCommand
+        {
+            get => addMaterialImageCmd ?? (addMaterialImageCmd = new BaseCommand(obj => AddMaterilImageMethod()));
         }
 
         #endregion
@@ -203,7 +210,7 @@ namespace CraftTools.ViewModels
                 material.Price = SelectedMaterial.Price;
         }
 
-        private async void saveChangesMethodAsync()
+        private async void SaveChangesMethodAsync()
         {
             using (context = new CraftToolsContext())
             {
@@ -260,6 +267,19 @@ namespace CraftTools.ViewModels
                 {
                     MessageBox.Show("Ошибка удаления: " + ex.Source + " " + ex.Message);
                 }
+            }
+        }
+
+        private void AddMaterilImageMethod()
+        {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                FilterIndex = 3,
+                Filter = "Файлы изображений (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.png"
+            };
+            if (ofd.ShowDialog() == true)
+            {
+                SelectedMaterial.Image = Tools.ImageToByteArrayFromFilePath(ofd.FileName);
             }
         }
 
