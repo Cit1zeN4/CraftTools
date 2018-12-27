@@ -9,7 +9,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using Windows = System.Windows;
+using System.Windows;
 
 namespace CraftTools.ViewModels
 {
@@ -49,7 +49,8 @@ namespace CraftTools.ViewModels
         bool isReadOnly = true;
         bool isDataLoaded = false;
         string editBoxCurentIcon = "Pencil";
-        Windows.GridLength editBoxLength = new Windows.GridLength(0);
+        GridLength editBoxLength = new GridLength(0);
+        Visibility isVisible = Visibility.Hidden;
 
         #endregion
 
@@ -77,7 +78,7 @@ namespace CraftTools.ViewModels
             set
             {
                 selectedMaterial = value;
-                EditBoxLength = new Windows.GridLength(8, Windows.GridUnitType.Star);
+                EditBoxLength = new GridLength(8, GridUnitType.Star);
                 OnPropertyChanged();
             }
         }
@@ -122,12 +123,22 @@ namespace CraftTools.ViewModels
             }
         }
 
-        public Windows.GridLength EditBoxLength
+        public GridLength EditBoxLength
         {
             get => editBoxLength;
             set
             {
                 editBoxLength = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Visibility IsVisible
+        {
+            get => isVisible;
+            set
+            {
+                isVisible = value;
                 OnPropertyChanged();
             }
         }
@@ -198,11 +209,13 @@ namespace CraftTools.ViewModels
             {
                 if (IsReadOnly == true)
                 {
+                    IsVisible = Visibility.Visible;
                     IsReadOnly = false;
                     EditBoxCurentIcon = "Check";
                 }
                 else
                 {
+                    IsVisible = Visibility.Hidden;
                     IsReadOnly = true;
                     var material = context.Materials
                         .Where(x => x.Id == SelectedMaterial.Id)
@@ -227,7 +240,7 @@ namespace CraftTools.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    Windows.MessageBox.Show("Ошибка добавление: " + ex.Source + " " + ex.Message);
+                    MessageBox.Show("Ошибка добавление: " + ex.Source + " " + ex.Message);
                 }
             }
         }
@@ -245,7 +258,7 @@ namespace CraftTools.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    Windows.MessageBox.Show("Ошибка удаления: " + ex.Source + " " + ex.Message);
+                    MessageBox.Show("Ошибка удаления: " + ex.Source + " " + ex.Message);
                 }
             }
         }

@@ -207,6 +207,7 @@
                         VerticalAlignment="Stretch">
 
                         <Grid x:Name="grid">
+                            
                             <StackPanel 
                                 Grid.Column="0" 
                                 Grid.ColumnSpan="2" 
@@ -223,6 +224,8 @@
                                 
                             </StackPanel>
 
+                            <Image Source="{Binding Image}"/>
+
                             <Grid
                                 x:Name="ButtonGrid"
                                 Grid.Column="0" 
@@ -237,7 +240,8 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     Background="#99323232" 
-                                    BorderBrush="{x:Null}">
+                                    BorderBrush="{x:Null}"
+                                    Visibility="{Binding IsVisible, Source={StaticResource _materialVM}}">
 
                                     <Grid>
                                         <materialDesign:PackIcon 
