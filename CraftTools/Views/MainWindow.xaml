@@ -44,6 +44,7 @@
                 <Button.CommandParameter>
                     <system:Int32>1</system:Int32>
                 </Button.CommandParameter>
+                <materialDesign:PackIcon Kind="CurrencyUsd" Width="30" Height="30"/>
             </Button>
             <Button
                 Style="{DynamicResource MaterialDesignFloatingActionButton}"
@@ -52,11 +53,16 @@
                 <Button.CommandParameter>
                     <system:Int32>2</system:Int32>
                 </Button.CommandParameter>
+                <materialDesign:PackIcon Kind="CurrencyUsdOff" Width="30" Height="30"/>
             </Button>
             <Button
                 Style="{DynamicResource MaterialDesignFloatingActionButton}"
                 Width="40" Height="40" 
-                Margin="0 5 0 5">
+                Margin="0 5 0 5" Command="{Binding ChangeCurrentViewCommand, Mode=OneWay, Source={StaticResource _mainWindowVM}}">
+                <Button.CommandParameter>
+                    <system:Int32>3</system:Int32>
+                </Button.CommandParameter>
+                <materialDesign:PackIcon Kind="Layers" Width="30" Height="30"/>
             </Button>
             <Button
                 Style="{DynamicResource MaterialDesignFloatingActionButton}"

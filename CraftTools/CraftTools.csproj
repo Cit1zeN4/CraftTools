@@ -76,9 +76,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\LossViewModel.cs" />
+    <Compile Include="ViewModels\MaterialViewModel.cs" />
     <Compile Include="ViewModels\ProfitViewModel.cs" />
     <Compile Include="Views\LossView.xaml.cs">
       <DependentUpon>LossView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MaterialView.xaml.cs">
+      <DependentUpon>MaterialView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProfitView.xaml.cs">
       <DependentUpon>ProfitView.xaml</DependentUpon>
@@ -107,6 +111,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\MaterialView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ProfitView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
