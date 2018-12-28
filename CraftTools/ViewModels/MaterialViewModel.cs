@@ -264,7 +264,18 @@ namespace CraftTools.ViewModels
                 {
                     context.Materials.Add(AddedMaterial);
                     await context.SaveChangesAsync();
-                    Materials.Add(new Material { Name = AddedMaterial.Name, Description = AddedMaterial.Description, Price = AddedMaterial.Price, Id = AddedMaterial.Id, Image = AddedMaterial.Image });
+                    Materials.Add(
+                        new Material
+                        {
+                            Name = AddedMaterial.Name,
+                            Description = AddedMaterial.Description,
+                            Price = AddedMaterial.Price,
+                            Id = AddedMaterial.Id,
+                            Image = AddedMaterial.Image,
+                            HaveSize = AddedMaterial.HaveSize,
+                            Length = AddedMaterial.Length,
+                            Width = AddedMaterial.Width
+                        });
                     AddedMaterial.Clear();
                 }
                 catch (Exception ex)

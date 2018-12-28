@@ -120,6 +120,9 @@ namespace CraftTools.Models
             Id = 0;
             Image = null; 
             Name = null;
+            HaveSize = false;
+            Length = 0;
+            Width = 0;
             Description = null;
             Price = 0;
         }
