@@ -69,9 +69,25 @@ namespace CraftTools.Models
             get => _price;
             set
             {
-                _price = value;
-                OnPropertyChanged();
+                if (_price != value)
+                {
+                    _price = value;
+                    OnPropertyChanged();
+                }
             }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public void Clear()
+        {
+            Id = 0;
+            Image = null;
+            Name = null;
+            Description = null;
+            Price = 0;
         }
 
         #endregion
