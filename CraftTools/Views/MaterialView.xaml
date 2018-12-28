@@ -188,6 +188,16 @@
 
             </Grid.ColumnDefinitions>
 
+            <Grid Grid.Column="0" Grid.Row="1">
+                <ProgressBar
+                    Style="{StaticResource MaterialDesignCircularProgressBar}"
+                    Width="50"
+                    Height="50"
+                    Value="{Binding ProgressBarValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    IsIndeterminate="True"
+                    x:Name="IndeterminateToDeterminateCircularProgress" />
+            </Grid>
+
             <ListBox
                 x:Name="MaterialCollectionList"
                 Grid.Column="0" Grid.Row="1"
@@ -252,8 +262,8 @@
             </ListBox>
 
             <materialDesign:Card
-                x:Name="MaterialEditBox"
                 Grid.Column="1" Grid.Row="1"
+                x:Name="MaterialEditBox"
                 Margin="0 8 0 0" VerticalAlignment="Stretch"
                 materialDesign:ShadowAssist.ShadowDepth="Depth3">
 
@@ -290,7 +300,7 @@
                         VerticalAlignment="Stretch">
 
                         <Grid x:Name="grid">
-                            
+
                             <StackPanel 
                                 VerticalAlignment="Center" 
                                 HorizontalAlignment="Center">
@@ -300,7 +310,7 @@
                                     Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}Material #{0}}" 
                                     Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" 
                                     FontSize="50"/>
-                                
+
                             </StackPanel>
 
                             <Image Source="{Binding Image}" Stretch="UniformToFill"/>
@@ -322,13 +332,13 @@
                                     <Button.CommandParameter>
                                         <system:Int32>1</system:Int32>
                                     </Button.CommandParameter>
-                                    
+
                                     <Grid>
                                         <materialDesign:PackIcon 
                                         Kind="ImagePlus" Margin="0 25 0 25"
                                         Height="Auto" Width="Auto"/>
                                     </Grid>
-                                    
+
                                 </Button>
 
                             </Grid>
@@ -407,7 +417,7 @@
                         </StackPanel>
 
                     </StackPanel>
-                    
+
                     <StackPanel 
                         Grid.Column="0" Grid.ColumnSpan="2" 
                         Grid.Row="7" Orientation="Horizontal"

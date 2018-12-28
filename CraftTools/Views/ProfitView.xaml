@@ -112,6 +112,16 @@
 
             </Grid.ColumnDefinitions>
 
+            <Grid Grid.Column="0" Grid.Row="1">
+                <ProgressBar
+                    Style="{StaticResource MaterialDesignCircularProgressBar}"
+                    Width="50"
+                    Height="50"
+                    Value="{Binding ProgressBarValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    IsIndeterminate="True"
+                    x:Name="IndeterminateToDeterminateCircularProgress" />
+            </Grid>
+
             <ListBox
                 x:Name="ProfitCollectionList"
                 Grid.Column="0" Grid.Row="1"

@@ -48,6 +48,7 @@ namespace CraftTools.ViewModels
         Loss addedLoss;
         bool isReadOnly = true;
         bool isDataLoaded = false;
+        double progressBarValue = 0;
         string editBoxCurentIcon = "Pencil";
         GridLength editBoxLength = new GridLength(0);
 
@@ -132,6 +133,16 @@ namespace CraftTools.ViewModels
             }
         }
 
+        public double ProgressBarValue
+        {
+            get => progressBarValue;
+            set
+            {
+                progressBarValue = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -143,6 +154,7 @@ namespace CraftTools.ViewModels
             {
                 list = await context.Losses.ToListAsync();
             }
+            ProgressBarValue = 100;
             Losses = new ObservableCollection<Loss>(list);
             IsDataLoaded = true;
         }
