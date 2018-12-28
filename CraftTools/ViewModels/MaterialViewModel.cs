@@ -50,6 +50,7 @@ namespace CraftTools.ViewModels
         bool isReadOnly = true;
         bool isDataLoaded = false;
         bool isEnabled = false;
+        double progressBarValue = 0;
         string editBoxCurentIcon = "Pencil";
         GridLength editBoxLength = new GridLength(0);
         Visibility isVisible = Visibility.Hidden;
@@ -155,6 +156,16 @@ namespace CraftTools.ViewModels
             }
         }
 
+        public double ProgressBarValue
+        {
+            get => progressBarValue;
+            set
+            {
+                progressBarValue = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -166,6 +177,7 @@ namespace CraftTools.ViewModels
             {
                 list = await context.Materials.ToListAsync();
             }
+            ProgressBarValue = 100;
             Materials = new ObservableCollection<Material>(list);
             IsDataLoaded = true;
         }
