@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Media.Imaging;
 
 namespace CraftTools.Models
 {
@@ -31,6 +30,7 @@ namespace CraftTools.Models
         private double _price;
         private double _length;
         private double _width;
+        private bool _haveSize;
 
         #endregion
 
@@ -101,7 +101,15 @@ namespace CraftTools.Models
             }
         }
 
-        public bool HaveSize { get; set; }
+        public bool HaveSize
+        {
+            get => _haveSize;
+            set
+            {
+                _haveSize = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -112,6 +120,9 @@ namespace CraftTools.Models
             Id = 0;
             Image = null; 
             Name = null;
+            HaveSize = false;
+            Length = 0;
+            Width = 0;
             Description = null;
             Price = 0;
         }

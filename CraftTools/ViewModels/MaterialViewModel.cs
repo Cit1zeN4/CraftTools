@@ -1,5 +1,6 @@
 ﻿using CraftTools.Helpers;
 using CraftTools.Models;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -48,8 +49,10 @@ namespace CraftTools.ViewModels
         Material addedMaterial;
         bool isReadOnly = true;
         bool isDataLoaded = false;
+        bool isEnabled = false;
         string editBoxCurentIcon = "Pencil";
         GridLength editBoxLength = new GridLength(0);
+        Visibility isVisible = Visibility.Hidden;
 
         #endregion
 
@@ -112,6 +115,16 @@ namespace CraftTools.ViewModels
             }
         }
 
+        public bool IsEnabled
+        {
+            get => isEnabled;
+            set
+            {
+                isEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string EditBoxCurentIcon
         {
             get => editBoxCurentIcon;
@@ -128,6 +141,16 @@ namespace CraftTools.ViewModels
             set
             {
                 editBoxLength = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Visibility IsVisible
+        {
+            get => isVisible;
+            set
+            {
+                isVisible = value;
                 OnPropertyChanged();
             }
         }
@@ -154,7 +177,8 @@ namespace CraftTools.ViewModels
         #region Command Fields
 
         BaseCommand saveChangesCmd;
-        BaseCommand deleteProfitsCmd;
+        BaseCommand deleteMaterialCmd;
+        BaseCommand addMaterialImageCmd;
 
         #endregion
 
@@ -162,12 +186,17 @@ namespace CraftTools.ViewModels
 
         public BaseCommand SaveChangesCommand
         {
-            get => saveChangesCmd ?? (saveChangesCmd = new BaseCommand(obj => saveChangesMethodAsync()));
+            get => saveChangesCmd ?? (saveChangesCmd = new BaseCommand(obj => SaveChangesMethodAsync()));
         }
 
-        public BaseCommand DeleteProfitCommand
+        public BaseCommand DeleteMaterialCommand
         {
-            get => deleteProfitsCmd ?? (deleteProfitsCmd = new BaseCommand(obj => DeleteMaterialMethod()));
+            get => deleteMaterialCmd ?? (deleteMaterialCmd = new BaseCommand(obj => DeleteMaterialMethod()));
+        }
+
+        public BaseCommand AddMaterialImageCommand
+        {
+            get => addMaterialImageCmd ?? (addMaterialImageCmd = new BaseCommand(obj => AddMaterilImageMethod((int)obj)));
         }
 
         #endregion
@@ -190,19 +219,32 @@ namespace CraftTools.ViewModels
 
             if (material.Price != SelectedMaterial.Price)
                 material.Price = SelectedMaterial.Price;
+
+            if (material.HaveSize != SelectedMaterial.HaveSize)
+                material.HaveSize = SelectedMaterial.HaveSize;
+
+            if (material.Length != SelectedMaterial.Length)
+                material.Length = SelectedMaterial.Length;
+
+            if (material.Width != SelectedMaterial.Width)
+                material.Width = SelectedMaterial.Width;
         }
 
-        private async void saveChangesMethodAsync()
+        private async void SaveChangesMethodAsync()
         {
             using (context = new CraftToolsContext())
             {
                 if (IsReadOnly == true)
                 {
+                    IsEnabled = true;
+                    IsVisible = Visibility.Visible;
                     IsReadOnly = false;
                     EditBoxCurentIcon = "Check";
                 }
                 else
                 {
+                    IsEnabled = false;
+                    IsVisible = Visibility.Hidden;
                     IsReadOnly = true;
                     var material = context.Materials
                         .Where(x => x.Id == SelectedMaterial.Id)
@@ -222,7 +264,18 @@ namespace CraftTools.ViewModels
                 {
                     context.Materials.Add(AddedMaterial);
                     await context.SaveChangesAsync();
-                    Materials.Add(new Material { Name = AddedMaterial.Name, Description = AddedMaterial.Description, Price = AddedMaterial.Price, Id = AddedMaterial.Id, Image = AddedMaterial.Image });
+                    Materials.Add(
+                        new Material
+                        {
+                            Name = AddedMaterial.Name,
+                            Description = AddedMaterial.Description,
+                            Price = AddedMaterial.Price,
+                            Id = AddedMaterial.Id,
+                            Image = AddedMaterial.Image,
+                            HaveSize = AddedMaterial.HaveSize,
+                            Length = AddedMaterial.Length,
+                            Width = AddedMaterial.Width
+                        });
                     AddedMaterial.Clear();
                 }
                 catch (Exception ex)
@@ -246,6 +299,30 @@ namespace CraftTools.ViewModels
                 catch (Exception ex)
                 {
                     MessageBox.Show("Ошибка удаления: " + ex.Source + " " + ex.Message);
+                }
+            }
+        }
+
+        private void AddMaterilImageMethod(int i)
+        {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                FilterIndex = 3,
+                Filter = "Файлы изображений (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.png"
+            };
+            if (ofd.ShowDialog() == true)
+            {
+                switch(i)
+                {
+                    case 1:
+                        SelectedMaterial.Image = Tools.ImageToByteArrayFromFilePath(ofd.FileName);
+                        break;
+                    case 2:
+                        AddedMaterial.Image = Tools.ImageToByteArrayFromFilePath(ofd.FileName);
+                        break;
+                    default:
+                        MessageBox.Show("Ошибка добавления изображения");
+                        break;
                 }
             }
         }

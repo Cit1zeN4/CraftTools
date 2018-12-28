@@ -33,6 +33,11 @@ namespace CraftTools.Views
                 MaterialViewModel viewModel = (MaterialViewModel)MaterialViewMainGrid.DataContext;
                 await viewModel.AddMaterialMethodAsync();
             }
+            else
+            {
+                MaterialViewModel viewModel = (MaterialViewModel)MaterialViewMainGrid.DataContext;
+                viewModel.AddedMaterial.Clear();
+            }
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -47,6 +52,16 @@ namespace CraftTools.Views
                     worker.RunWorkerAsync();
                 }
             }
+        }
+
+        private void AddMaterialImageButton_MouseLeave(object sender, MouseEventArgs e)
+        {
+            AddMaterialImageButton.Opacity = 0;
+        }
+
+        private void AddMaterialImageButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            AddMaterialImageButton.Opacity = 1;
         }
     }
 }
