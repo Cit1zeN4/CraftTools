@@ -49,6 +49,7 @@ namespace CraftTools.ViewModels
         Material addedMaterial;
         bool isReadOnly = true;
         bool isDataLoaded = false;
+        bool isEnabled = false;
         string editBoxCurentIcon = "Pencil";
         GridLength editBoxLength = new GridLength(0);
         Visibility isVisible = Visibility.Hidden;
@@ -110,6 +111,16 @@ namespace CraftTools.ViewModels
             set
             {
                 isReadOnly = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsEnabled
+        {
+            get => isEnabled;
+            set
+            {
+                isEnabled = value;
                 OnPropertyChanged();
             }
         }
@@ -208,6 +219,15 @@ namespace CraftTools.ViewModels
 
             if (material.Price != SelectedMaterial.Price)
                 material.Price = SelectedMaterial.Price;
+
+            if (material.HaveSize != SelectedMaterial.HaveSize)
+                material.HaveSize = SelectedMaterial.HaveSize;
+
+            if (material.Length != SelectedMaterial.Length)
+                material.Length = SelectedMaterial.Length;
+
+            if (material.Width != SelectedMaterial.Width)
+                material.Width = SelectedMaterial.Width;
         }
 
         private async void SaveChangesMethodAsync()
@@ -216,12 +236,14 @@ namespace CraftTools.ViewModels
             {
                 if (IsReadOnly == true)
                 {
+                    IsEnabled = true;
                     IsVisible = Visibility.Visible;
                     IsReadOnly = false;
                     EditBoxCurentIcon = "Check";
                 }
                 else
                 {
+                    IsEnabled = false;
                     IsVisible = Visibility.Hidden;
                     IsReadOnly = true;
                     var material = context.Materials

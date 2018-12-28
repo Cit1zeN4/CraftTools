@@ -46,18 +46,19 @@
                         VerticalAlignment="Stretch" 
                         HorizontalAlignment="Stretch">
 
-                        <Grid.Background>
-                            <ImageBrush ImageSource="{Binding Image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="UniformToFill"/>
-                        </Grid.Background>
+                        <Image Source="{Binding Image}" Stretch="UniformToFill"/>
 
                         <Button
-                             Height="Auto"
-                             HorizontalAlignment="Stretch"
-                             VerticalAlignment="Stretch"
-                             Background="{x:Null}"
-                             BorderBrush="{x:Null}" 
-                             Command="{Binding AddMaterialImageCommand, 
-                             Mode=OneWay, Source={StaticResource _materialVM}}">
+                            x:Name="AddMaterialImageButton"
+                            Height="Auto"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Background="#99454545"
+                            BorderBrush="{x:Null}" 
+                            Command="{Binding AddMaterialImageCommand, 
+                            Mode=OneWay, Source={StaticResource _materialVM}}"
+                            MouseEnter="AddMaterialImageButton_MouseEnter"
+                            MouseLeave="AddMaterialImageButton_MouseLeave">
 
                             <Button.CommandParameter>
                                 <system:Int32>2</system:Int32>
@@ -75,11 +76,6 @@
 
 
                 </materialDesign:Card>
-
-                <Image 
-                    Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
-                    Height="300" Width="300" Stretch="UniformToFill" 
-                    Source="{Binding Image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <StackPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"  Width="300">
 
@@ -252,12 +248,12 @@
 
                     <Grid.RowDefinitions>
 
-                        <RowDefinition Height="4*"/>
+                        <RowDefinition Height="1.8*"/>
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="15"/>
-                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="1*"/>
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="60"/>
 
@@ -359,6 +355,36 @@
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                         materialDesign:HintAssist.Hint="Описание"/>
 
+                    <StackPanel
+                        Grid.Column="0" Grid.ColumnSpan="2" 
+                        Grid.Row="6" Orientation="Vertical"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top" Margin="0 15 0 0">
+
+                        <CheckBox
+                            x:Name="HaveSizeCheckBox"
+                            Content="Имеет размеры" 
+                            IsChecked="{Binding HaveSize, Mode=TwoWay, 
+                            UpdateSourceTrigger=PropertyChanged}"
+                            IsEnabled="{Binding IsEnabled, Source={StaticResource _materialVM}}"/>
+
+                        <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+                            <TextBox
+                                IsEnabled="{Binding IsChecked, ElementName=HaveSizeCheckBox}"
+                                materialDesign:HintAssist.Hint="Длина" Width="80"
+                                Text="{Binding Length, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                IsReadOnly="{Binding IsReadOnly, Source={StaticResource _materialVM}}"/>
+                            <TextBlock Text="X" Margin="5 0 5 0"/>
+                            <TextBox
+                                IsEnabled="{Binding IsChecked, ElementName=HaveSizeCheckBox}"
+                                materialDesign:HintAssist.Hint="Ширина" Width="80"
+                                Text="{Binding Width, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                IsReadOnly="{Binding IsReadOnly, Source={StaticResource _materialVM}}"/>
+                            <TextBlock Text="СМ" Margin="5 0 5 0"/>
+                        </StackPanel>
+
+                    </StackPanel>
+                    
                     <StackPanel 
                         Grid.Column="0" Grid.ColumnSpan="2" 
                         Grid.Row="7" Orientation="Horizontal"

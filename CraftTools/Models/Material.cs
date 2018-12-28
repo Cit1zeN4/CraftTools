@@ -30,6 +30,7 @@ namespace CraftTools.Models
         private double _price;
         private double _length;
         private double _width;
+        private bool _haveSize;
 
         #endregion
 
@@ -100,7 +101,15 @@ namespace CraftTools.Models
             }
         }
 
-        public bool HaveSize { get; set; }
+        public bool HaveSize
+        {
+            get => _haveSize;
+            set
+            {
+                _haveSize = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
