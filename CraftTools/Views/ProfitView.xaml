@@ -226,7 +226,7 @@
                             HorizontalAlignment="Center">
 
                             <TextBlock 
-                                Text="{Binding Id, 
+                                Text="{Binding ProfitId, 
                                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}Profit #{0}}" 
                                 Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" 
                                 FontSize="50"/>

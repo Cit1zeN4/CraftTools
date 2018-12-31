@@ -306,7 +306,7 @@
                                 HorizontalAlignment="Center">
 
                                 <TextBlock 
-                                    Text="{Binding Id, 
+                                    Text="{Binding MaterialId, 
                                     Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}Material #{0}}" 
                                     Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" 
                                     FontSize="50"/>

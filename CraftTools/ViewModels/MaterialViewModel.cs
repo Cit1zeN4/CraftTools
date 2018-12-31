@@ -217,8 +217,8 @@ namespace CraftTools.ViewModels
 
         private void Comparison(ref Material material)
         {
-            if (material.Id != SelectedMaterial.Id)
-                material.Id = SelectedMaterial.Id;
+            if (material.MaterialId != SelectedMaterial.MaterialId)
+                material.MaterialId = SelectedMaterial.MaterialId;
 
             if (material.Image != SelectedMaterial.Image)
                 material.Image = SelectedMaterial.Image;
@@ -259,7 +259,7 @@ namespace CraftTools.ViewModels
                     IsVisible = Visibility.Hidden;
                     IsReadOnly = true;
                     var material = context.Materials
-                        .Where(x => x.Id == SelectedMaterial.Id)
+                        .Where(x => x.MaterialId == SelectedMaterial.MaterialId)
                         .FirstOrDefault();
                     Comparison(ref material);
                     await context.SaveChangesAsync();
@@ -282,7 +282,7 @@ namespace CraftTools.ViewModels
                             Name = AddedMaterial.Name,
                             Description = AddedMaterial.Description,
                             Price = AddedMaterial.Price,
-                            Id = AddedMaterial.Id,
+                            MaterialId = AddedMaterial.MaterialId,
                             Image = AddedMaterial.Image,
                             HaveSize = AddedMaterial.HaveSize,
                             Length = AddedMaterial.Length,
@@ -303,7 +303,7 @@ namespace CraftTools.ViewModels
             {
                 try
                 {
-                    Material material = context.Materials.Where(o => o.Id == SelectedMaterial.Id).FirstOrDefault();
+                    Material material = context.Materials.Where(o => o.MaterialId == SelectedMaterial.MaterialId).FirstOrDefault();
                     context.Materials.Remove(material);
                     await context.SaveChangesAsync();
                     Materials.Remove(SelectedMaterial);

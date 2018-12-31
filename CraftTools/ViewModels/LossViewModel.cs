@@ -188,8 +188,8 @@ namespace CraftTools.ViewModels
 
         private void Comparison(ref Loss loss)
         {
-            if (loss.Id != SelectedLoss.Id)
-                loss.Id = SelectedLoss.Id;
+            if (loss.LossId != SelectedLoss.LossId)
+                loss.LossId = SelectedLoss.LossId;
 
             if (loss.Name != SelectedLoss.Name)
                 loss.Name = SelectedLoss.Name;
@@ -214,7 +214,7 @@ namespace CraftTools.ViewModels
                 {
                     IsReadOnly = true;
                     var loss = context.Losses
-                        .Where(x => x.Id == SelectedLoss.Id)
+                        .Where(x => x.LossId == SelectedLoss.LossId)
                         .FirstOrDefault();
                     Comparison(ref loss);
                     await context.SaveChangesAsync();
@@ -231,7 +231,7 @@ namespace CraftTools.ViewModels
                 {
                     context.Losses.Add(AddedLoss);
                     await context.SaveChangesAsync();
-                    Losses.Add(new Loss { Name = AddedLoss.Name, Description = AddedLoss.Description, Price = AddedLoss.Price, Id = AddedLoss.Id });
+                    Losses.Add(new Loss { Name = AddedLoss.Name, Description = AddedLoss.Description, Price = AddedLoss.Price, LossId = AddedLoss.LossId });
                     AddedLoss.Clear();
                 }
                 catch (Exception ex)
@@ -247,7 +247,7 @@ namespace CraftTools.ViewModels
             {
                 try
                 {
-                    Loss prof = context.Losses.Where(o => o.Id == SelectedLoss.Id).FirstOrDefault();
+                    Loss prof = context.Losses.Where(o => o.LossId == SelectedLoss.LossId).FirstOrDefault();
                     context.Losses.Remove(prof);
                     await context.SaveChangesAsync();
                     Losses.Remove(SelectedLoss);

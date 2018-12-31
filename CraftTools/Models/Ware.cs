@@ -32,7 +32,7 @@ namespace CraftTools.Models
 
         #region Properties
 
-        public int Id { get; set; }
+        public int WareId { get; set; }
 
         public byte[] Image
         {
@@ -83,7 +83,7 @@ namespace CraftTools.Models
 
         public void Clear()
         {
-            Id = 0;
+            WareId = 0;
             Image = null;
             Name = null;
             Description = null;

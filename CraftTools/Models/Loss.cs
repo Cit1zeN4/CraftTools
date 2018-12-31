@@ -36,7 +36,7 @@ namespace CraftTools.Models
 
         #region Properties
 
-        public int Id { get; set; }
+        public int LossId { get; set; }
 
         public string Name
         {
@@ -74,7 +74,7 @@ namespace CraftTools.Models
 
         public void Clear()
         {
-            Id = 0;
+            LossId = 0;
             Name = null;
             Description = null;
             Price = 0;
