@@ -4,9 +4,418 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CraftTools.Views"
+             xmlns:viewModel="clr-namespace:CraftTools.ViewModels"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             d:DesignHeight="450" d:DesignWidth="800"
+             Loaded="UserControl_Loaded">
+    
+    <UserControl.Resources>
+
+        <viewModel:WareViewModel x:Key="_WareVM"/>
+
+    </UserControl.Resources>
+
+    <materialDesign:DialogHost
+        Identifier="AddWareDialog" 
+        CloseOnClickAway="True" 
+        DialogClosing="AddMateril_DialogClosing"
+        DataContext="{Binding AddedWare, Source={StaticResource _WareVM}}">
+
+        <materialDesign:DialogHost.DialogContent>
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <materialDesign:Card
+                    Background="{DynamicResource PrimaryHueMidBrush}"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                    Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                    <Grid
+                        VerticalAlignment="Stretch" 
+                        HorizontalAlignment="Stretch">
+
+                        <Image Source="{Binding Image}" Stretch="UniformToFill"/>
+
+                        <Button
+                            x:Name="AddWareImageButton"
+                            Height="Auto"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Background="#99454545"
+                            BorderBrush="{x:Null}" 
+                            Command="{Binding AddWareImageCommand, 
+                            Mode=OneWay, Source={StaticResource _WareVM}}"
+                            MouseEnter="AddWareImageButton_MouseEnter"
+                            MouseLeave="AddWareImageButton_MouseLeave">
+
+                            <Button.CommandParameter>
+                                <system:Int32>2</system:Int32>
+                            </Button.CommandParameter>
+
+                            <Grid>
+                                <materialDesign:PackIcon 
+                                    Kind="ImagePlus" Margin="0 25 0 25"
+                                    Height="Auto" Width="Auto"/>
+                            </Grid>
+
+                        </Button>
+
+                    </Grid>
+
+
+                </materialDesign:Card>
+
+                <StackPanel Grid.Column="1" Grid.Row="0"  Width="300">
+
+                    <TextBlock 
+                        Text="Добавить элемент" 
+                        HorizontalAlignment="Center" 
+                        FontSize="18" FontWeight="Bold"
+                        Margin="0 15 0 0"
+                        Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+
+                    <TextBox
+                        x:Name="AddedItemName"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                        Margin="10"
+                        materialDesign:HintAssist.Hint="Название"
+                        Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+
+                    <TextBox
+                        x:Name="AddedItemDescription"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                        Margin="10" TextWrapping="Wrap"
+                        materialDesign:HintAssist.Hint="Описание"
+                        Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                        MaxLines="20"/>
+
+                    <StackPanel 
+                        Orientation="Horizontal" 
+                        HorizontalAlignment="Center"
+                        Margin="0 10 0 10">
+
+                        <TextBox 
+                            x:Name="AddedItemPrice"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                            Margin="0 0 10 10" HorizontalAlignment="Stretch"
+                            materialDesign:HintAssist.Hint="Цена"
+                            Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+
+                        <TextBlock 
+                            Text="BYN" 
+                            VerticalAlignment="Center"/>
+
+                    </StackPanel>
+
+                </StackPanel>
+
+                <StackPanel 
+                        Grid.Column="1" Grid.Row="1"
+                        Margin="10" Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+
+                    <Button 
+                            Content="Add"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Margin="0 0 10 0" Width="80" 
+                            Command="materialDesign:DialogHost.CloseDialogCommand">
+                        <Button.CommandParameter>
+                            <system:Boolean>True</system:Boolean>
+                        </Button.CommandParameter>
+                    </Button>
+
+                    <Button 
+                            Content="Cancel"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Margin="10 0 0 0" Width="80"
+                            Command="materialDesign:DialogHost.CloseDialogCommand"/>
+                </StackPanel>
+
+            </Grid>
+
+        </materialDesign:DialogHost.DialogContent>
+
+        <Grid
+            x:Name="WareViewMainGrid"
+            DataContext="{StaticResource _WareVM}">
+
+            <Grid.RowDefinitions>
+
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="{Binding EditBoxLength, Source={StaticResource _WareVM}}"/>
+
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Grid.Row="1">
+                <ProgressBar
+                    Style="{StaticResource MaterialDesignCircularProgressBar}"
+                    Width="50"
+                    Height="50"
+                    Value="{Binding ProgressBarValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    IsIndeterminate="True"
+                    x:Name="IndeterminateToDeterminateCircularProgress" />
+            </Grid>
+
+            <ListBox
+                x:Name="MaterialCollectionList"
+                Grid.Column="0" Grid.Row="1"
+                HorizontalContentAlignment="Stretch" 
+                DataContext="{StaticResource _WareVM}" 
+                ItemsSource="{Binding Wares}"
+                SelectedItem="{Binding SelectedWare, 
+                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Background="{x:Null}"
+                materialDesign:RippleAssist.IsDisabled="True">
+
+                <ListBox.ItemTemplate>
+
+                    <DataTemplate>
+
+                        <materialDesign:Card
+                            Background="{DynamicResource PrimaryHueMidBrush}"
+                            materialDesign:ShadowAssist.ShadowDepth="Depth3">
+
+                            <Grid 
+                                Height="60">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="10*"/>
+                                    <ColumnDefinition Width="2.3*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Image 
+                                    Grid.Column="0" Grid.Row="0" 
+                                    Grid.RowSpan="2" Source="{Binding Image}"
+                                    Stretch="UniformToFill"/>
+
+                                <TextBlock 
+                                    Foreground="White" Margin="10 0 0 5" 
+                                    VerticalAlignment="Bottom" Grid.Row="0" 
+                                    Grid.Column="1" Text="{Binding Name}"/>
+
+                                <TextBlock 
+                                    Foreground="White" Margin="10 5 10 0" 
+                                    VerticalAlignment="Top" Grid.Row="1" 
+                                    Grid.Column="1" Text="{Binding Description}"
+                                    Opacity="0.6"/>
+
+                                <TextBlock 
+                                    Foreground="White" Margin="0 0 10 5" 
+                                    Grid.Row="1" Grid.Column="2" 
+                                    Text="{Binding Price, StringFormat={}{0} BYN}"/>
+                            </Grid>
+
+                        </materialDesign:Card>
+
+                    </DataTemplate>
+
+                </ListBox.ItemTemplate>
+
+            </ListBox>
+
+            <materialDesign:Card
+                Grid.Column="1" Grid.Row="1"
+                x:Name="WareEditBox"
+                Margin="0 8 0 0" VerticalAlignment="Stretch"
+                materialDesign:ShadowAssist.ShadowDepth="Depth3">
+
+                <Grid
+                    Background="{DynamicResource MaterialDesignPaper}"
+                    DataContext="{Binding SelectedWare, 
+                    Source={StaticResource _WareVM}}">
+
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+
+                        <RowDefinition Height="1.8*"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="15"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="60"/>
+
+                    </Grid.RowDefinitions>
+
+                    <materialDesign:Card 
+                        Grid.Column="0" Grid.ColumnSpan="2"
+                        Grid.Row="0" Grid.RowSpan="2"
+                        Background="{DynamicResource PrimaryHueMidBrush}"
+                        materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                        VerticalAlignment="Stretch">
+
+                        <Grid x:Name="grid">
+
+                            <StackPanel 
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center">
+
+                                <TextBlock 
+                                    Text="{Binding WareId, 
+                                    Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}Ware #{0}}" 
+                                    Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" 
+                                    FontSize="50"/>
+
+                            </StackPanel>
+
+                            <Image Source="{Binding Image}" Stretch="UniformToFill"/>
+
+                            <Grid
+                                VerticalAlignment="Stretch" 
+                                HorizontalAlignment="Stretch">
+
+                                <Button
+                                    Height="Auto"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Background="#99323232" 
+                                    BorderBrush="{x:Null}"
+                                    Visibility="{Binding IsVisible, Source={StaticResource _WareVM}}" 
+                                    Command="{Binding AddWareImageCommand, 
+                                    Mode=OneWay, Source={StaticResource _WareVM}}">
+
+                                    <Button.CommandParameter>
+                                        <system:Int32>1</system:Int32>
+                                    </Button.CommandParameter>
+
+                                    <Grid>
+                                        <materialDesign:PackIcon 
+                                        Kind="ImagePlus" Margin="0 25 0 25"
+                                        Height="Auto" Width="Auto"/>
+                                    </Grid>
+
+                                </Button>
+
+                            </Grid>
+                        </Grid>
+
+                    </materialDesign:Card>
+
+                    <Button 
+                        Grid.Column="1" Grid.Row="1" 
+                        Grid.RowSpan="2" Width="40" 
+                        Height="40" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Center" 
+                        Margin="0 0 35 0"
+                        materialDesign:ShadowAssist.ShadowDepth="Depth4"
+                        Command="{Binding SaveChangesCommand, 
+                        Mode=OneWay, Source={StaticResource _WareVM}}"
+                        ToolTip="Редактировать">
+
+                        <materialDesign:PackIcon 
+                            Kind="{Binding EditBoxCurentIcon, 
+                            Source={StaticResource _WareVM}}" 
+                            Foreground="{DynamicResource SecondaryAccentForegroundBrush}"/>
+
+                    </Button>
+
+                    <TextBox 
+                        Grid.Column="0" Grid.ColumnSpan="2" 
+                        Grid.Row="3" Margin="15 0 15 0"
+                        Text="{Binding Name, 
+                        Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                        IsReadOnly="{Binding IsReadOnly, 
+                        Source={StaticResource _WareVM}, 
+                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        materialDesign:HintAssist.Hint="Название"/>
+
+                    <TextBox 
+                        Grid.Column="0" Grid.ColumnSpan="2" 
+                        Grid.Row="5" Margin="15 0 15 0"
+                        TextWrapping="Wrap" VerticalAlignment="Top"
+                        Text="{Binding Description, 
+                        Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                        IsReadOnly="{Binding IsReadOnly, 
+                        Source={StaticResource _WareVM}, 
+                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        materialDesign:HintAssist.Hint="Описание"/>
+
+                    <StackPanel 
+                        Grid.Column="0" Grid.ColumnSpan="2" 
+                        Grid.Row="7" Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+
+                        <TextBox 
+                            Grid.Column="0" Grid.ColumnSpan="2"
+                            Grid.Row="8"
+                            FontSize="28" VerticalAlignment="Center"
+                            FontWeight="Bold"
+                            Foreground="{DynamicResource PrimaryHueMidBrush}"
+                            Text="{Binding Price, 
+                            Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                            IsReadOnly="{Binding IsReadOnly, 
+                            Source={StaticResource _WareVM}, 
+                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            materialDesign:HintAssist.Hint="Цена"/>
+
+                        <TextBlock 
+                            Text="BYN" FontSize="28"
+                            VerticalAlignment="Center"
+                            FontWeight="Bold"
+                            Margin="15 0 0 0"
+                            Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+            </materialDesign:Card>
+
+            <StackPanel
+                Grid.Column="0" Grid.ColumnSpan="2"
+                Orientation="Horizontal">
+
+                <Button 
+                    Content="Добавить" 
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                    IsEnabled="{Binding IsDataLoaded}"/>
+                <Button
+                    Content="Удалить"
+                    Style="{StaticResource MaterialDesignFlatButton}" 
+                    Command="{Binding DeleteWareCommand, Mode=OneWay}"
+                    IsEnabled="{Binding IsDataLoaded}"/>
+
+            </StackPanel>
+
+        </Grid>
+
+    </materialDesign:DialogHost>
+
 </UserControl>

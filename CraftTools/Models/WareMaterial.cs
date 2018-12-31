@@ -1,10 +1,14 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CraftTools.Models
 {
-    public class Ware : INotifyPropertyChanged
+    public class WareMaterial : INotifyPropertyChanged
     {
         #region PropertyChanged
 
@@ -22,37 +26,20 @@ namespace CraftTools.Models
 
         #endregion
 
-        #region Constractors
-
-        public Ware()
-        {
-            WareMaterials = new ObservableCollection<WareMaterial>();
-        }
-
-        #endregion
-
         #region Fields
 
-        private byte[] _image;
         private string _name;
         private string _description;
         private double _price;
+        private double _length;
+        private double _width;
+        private bool _haveSize;
 
         #endregion
 
         #region Properties
 
-        public int WareId { get; set; }
-
-        public byte[] Image
-        {
-            get => _image;
-            set
-            {
-                _image = value;
-                OnPropertyChanged();
-            }
-        }
+        public int WareMaterialId { get; set; }
 
         public string Name
         {
@@ -87,7 +74,37 @@ namespace CraftTools.Models
             }
         }
 
-        public ObservableCollection<WareMaterial> WareMaterials { get; set; }
+        public double Length
+        {
+            get => _length;
+            set
+            {
+                _length = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double Width
+        {
+            get => _width;
+            set
+            {
+                _width = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool HaveSize
+        {
+            get => _haveSize;
+            set
+            {
+                _haveSize = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Ware Ware { get; set; }
 
         #endregion
 
@@ -95,9 +112,11 @@ namespace CraftTools.Models
 
         public void Clear()
         {
-            WareId = 0;
-            Image = null;
+            WareMaterialId = 0;
             Name = null;
+            HaveSize = false;
+            Length = 0;
+            Width = 0;
             Description = null;
             Price = 0;
         }

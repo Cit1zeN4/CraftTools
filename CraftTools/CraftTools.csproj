@@ -76,6 +76,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helpers\Tools.cs" />
+    <Compile Include="Models\WareMaterial.cs" />
     <Compile Include="ViewModels\LossViewModel.cs" />
     <Compile Include="ViewModels\MaterialViewModel.cs" />
     <Compile Include="ViewModels\ProfitViewModel.cs" />
