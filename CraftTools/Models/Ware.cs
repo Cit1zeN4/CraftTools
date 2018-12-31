@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace CraftTools.Models
@@ -21,6 +22,15 @@ namespace CraftTools.Models
 
         #endregion
 
+        #region Constractors
+
+        public Ware()
+        {
+            WareMaterials = new ObservableCollection<WareMaterial>();
+        }
+
+        #endregion
+
         #region Fields
 
         private byte[] _image;
@@ -32,7 +42,7 @@ namespace CraftTools.Models
 
         #region Properties
 
-        public int Id { get; set; }
+        public int WareId { get; set; }
 
         public byte[] Image
         {
@@ -69,9 +79,27 @@ namespace CraftTools.Models
             get => _price;
             set
             {
-                _price = value;
-                OnPropertyChanged();
+                if (_price != value)
+                {
+                    _price = value;
+                    OnPropertyChanged();
+                }
             }
+        }
+
+        public ObservableCollection<WareMaterial> WareMaterials { get; set; }
+
+        #endregion
+
+        #region Methods
+
+        public void Clear()
+        {
+            WareId = 0;
+            Image = null;
+            Name = null;
+            Description = null;
+            Price = 0;
         }
 
         #endregion

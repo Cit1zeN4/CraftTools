@@ -226,7 +226,7 @@
                             HorizontalAlignment="Center">
 
                             <TextBlock 
-                                Text="{Binding Id, 
+                                Text="{Binding LossId, 
                                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}Loss #{0}}" 
                                 Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" 
                                 FontSize="50"/>

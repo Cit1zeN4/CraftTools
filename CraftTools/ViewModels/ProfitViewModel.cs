@@ -190,8 +190,8 @@ namespace CraftTools.ViewModels
 
         private void Comparison(ref Profit profit)
         {
-            if (profit.Id != SelectedProfit.Id)
-                profit.Id = SelectedProfit.Id;
+            if (profit.ProfitId != SelectedProfit.ProfitId)
+                profit.ProfitId = SelectedProfit.ProfitId;
 
             if (profit.Name != SelectedProfit.Name)
                 profit.Name = SelectedProfit.Name;
@@ -216,7 +216,7 @@ namespace CraftTools.ViewModels
                 {
                     IsReadOnly = true;
                     var prof = context.Profits
-                        .Where(x => x.Id == SelectedProfit.Id)
+                        .Where(x => x.ProfitId == SelectedProfit.ProfitId)
                         .FirstOrDefault();
                     Comparison(ref prof);
                     await context.SaveChangesAsync();
@@ -233,7 +233,7 @@ namespace CraftTools.ViewModels
                 {
                     context.Profits.Add(AddedProfit);
                     await context.SaveChangesAsync();
-                    Profits.Add(new Profit { Name = AddedProfit.Name, Description = AddedProfit.Description, Price = AddedProfit.Price, Id = AddedProfit.Id });       
+                    Profits.Add(new Profit { Name = AddedProfit.Name, Description = AddedProfit.Description, Price = AddedProfit.Price, ProfitId = AddedProfit.ProfitId });       
                     AddedProfit.Clear();
                 }
                 catch(Exception ex)
@@ -249,7 +249,7 @@ namespace CraftTools.ViewModels
             {
                 try
                 {
-                    Profit prof = context.Profits.Where(o => o.Id == SelectedProfit.Id).FirstOrDefault();
+                    Profit prof = context.Profits.Where(o => o.ProfitId == SelectedProfit.ProfitId).FirstOrDefault();
                     context.Profits.Remove(prof);
                     await context.SaveChangesAsync();
                     Profits.Remove(SelectedProfit);

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CraftTools.Models
 {
-    public class Profit : INotifyPropertyChanged
+    public class WareMaterial : INotifyPropertyChanged
     {
         #region PropertyChanged
 
@@ -31,12 +31,15 @@ namespace CraftTools.Models
         private string _name;
         private string _description;
         private double _price;
+        private double _length;
+        private double _width;
+        private bool _haveSize;
 
         #endregion
 
         #region Properties
 
-        public int ProfitId { get; set; }
+        public int WareMaterialId { get; set; }
 
         public string Name
         {
@@ -63,10 +66,45 @@ namespace CraftTools.Models
             get => _price;
             set
             {
-                _price = value;
+                if (_price != value)
+                {
+                    _price = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public double Length
+        {
+            get => _length;
+            set
+            {
+                _length = value;
                 OnPropertyChanged();
             }
         }
+
+        public double Width
+        {
+            get => _width;
+            set
+            {
+                _width = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool HaveSize
+        {
+            get => _haveSize;
+            set
+            {
+                _haveSize = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Ware Ware { get; set; }
 
         #endregion
 
@@ -74,8 +112,11 @@ namespace CraftTools.Models
 
         public void Clear()
         {
-            ProfitId = 0;
+            WareMaterialId = 0;
             Name = null;
+            HaveSize = false;
+            Length = 0;
+            Width = 0;
             Description = null;
             Price = 0;
         }

@@ -1,5 +1,6 @@
 ﻿using CraftTools.Helpers;
 using CraftTools.Models;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +14,7 @@ using System.Windows;
 
 namespace CraftTools.ViewModels
 {
-    class LossViewModel : INotifyPropertyChanged
+    public class WareViewModel : INotifyPropertyChanged
     {
         #region PropertyChanged
 
@@ -33,62 +34,64 @@ namespace CraftTools.ViewModels
 
         #region Constructors
 
-        public LossViewModel()
+        public WareViewModel()
         {
-            AddedLoss = new Loss();
+            AddedWare = new Ware();
         }
 
         #endregion
 
         #region Fields
 
-        ObservableCollection<Loss> losses;
+        ObservableCollection<Ware> wares;
         CraftToolsContext context;
-        Loss selectedLoss;
-        Loss addedLoss;
+        Ware selectedWare;
+        Ware addedWare;
         bool isReadOnly = true;
         bool isDataLoaded = false;
+        bool isEnabled = false;
         double progressBarValue = 0;
         string editBoxCurentIcon = "Pencil";
         GridLength editBoxLength = new GridLength(0);
+        Visibility isVisible = Visibility.Hidden;
 
         #endregion
 
         #region Properties
 
-        public ObservableCollection<Loss> Losses
+        public ObservableCollection<Ware> Wares
         {
-            get => losses;
+            get => wares;
             set
             {
-                losses = value;
+                wares = value;
                 OnPropertyChanged();
             }
         }
 
-        public Loss SelectedLoss
+        public Ware SelectedWare
         {
             get
             {
-                if (selectedLoss == null)
+                if (selectedWare == null)
                     return null;
                 else
-                    return selectedLoss;
+                    return selectedWare;
             }
             set
             {
-                selectedLoss = value;
+                selectedWare = value;
                 EditBoxLength = new GridLength(8, GridUnitType.Star);
                 OnPropertyChanged();
             }
         }
 
-        public Loss AddedLoss
+        public Ware AddedWare
         {
-            get => addedLoss;
+            get => addedWare;
             set
             {
-                addedLoss = value;
+                addedWare = value;
                 OnPropertyChanged();
             }
         }
@@ -113,6 +116,16 @@ namespace CraftTools.ViewModels
             }
         }
 
+        public bool IsEnabled
+        {
+            get => isEnabled;
+            set
+            {
+                isEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string EditBoxCurentIcon
         {
             get => editBoxCurentIcon;
@@ -133,6 +146,16 @@ namespace CraftTools.ViewModels
             }
         }
 
+        public Visibility IsVisible
+        {
+            get => isVisible;
+            set
+            {
+                isVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
         public double ProgressBarValue
         {
             get => progressBarValue;
@@ -149,13 +172,13 @@ namespace CraftTools.ViewModels
 
         public async void LoadData()
         {
-            List<Loss> list;
+            List<Ware> list;
             using (context = new CraftToolsContext())
             {
-                list = await context.Losses.ToListAsync();
+                list = await context.Wares.ToListAsync();
             }
             ProgressBarValue = 100;
-            Losses = new ObservableCollection<Loss>(list);
+            Wares = new ObservableCollection<Ware>(list);
             IsDataLoaded = true;
         }
 
@@ -166,7 +189,8 @@ namespace CraftTools.ViewModels
         #region Command Fields
 
         BaseCommand saveChangesCmd;
-        BaseCommand deleteLosssCmd;
+        BaseCommand deleteWareCmd;
+        BaseCommand addWareImageCmd;
 
         #endregion
 
@@ -174,65 +198,85 @@ namespace CraftTools.ViewModels
 
         public BaseCommand SaveChangesCommand
         {
-            get => saveChangesCmd ?? (saveChangesCmd = new BaseCommand(obj => saveChangesMethodAsync()));
+            get => saveChangesCmd ?? (saveChangesCmd = new BaseCommand(obj => SaveChangesMethodAsync()));
         }
 
-        public BaseCommand DeleteLossCommand
+        public BaseCommand DeleteWareCommand
         {
-            get => deleteLosssCmd ?? (deleteLosssCmd = new BaseCommand(obj => DeleteLossMethod()));
+            get => deleteWareCmd ?? (deleteWareCmd = new BaseCommand(obj => DeleteWareMethod()));
+        }
+
+        public BaseCommand AddWareImageCommand
+        {
+            get => addWareImageCmd ?? (addWareImageCmd = new BaseCommand(obj => AddMaterilImageMethod((int)obj)));
         }
 
         #endregion
 
         #region Command Methods
 
-        private void Comparison(ref Loss loss)
+        private void Comparison(ref Ware Ware)
         {
-            if (loss.LossId != SelectedLoss.LossId)
-                loss.LossId = SelectedLoss.LossId;
+            if (Ware.WareId != SelectedWare.WareId)
+                Ware.WareId = SelectedWare.WareId;
 
-            if (loss.Name != SelectedLoss.Name)
-                loss.Name = SelectedLoss.Name;
+            if (Ware.Image != SelectedWare.Image)
+                Ware.Image = SelectedWare.Image;
 
-            if (loss.Description != SelectedLoss.Description)
-                loss.Description = SelectedLoss.Description;
+            if (Ware.Name != SelectedWare.Name)
+                Ware.Name = SelectedWare.Name;
 
-            if (loss.Price != SelectedLoss.Price)
-                loss.Price = SelectedLoss.Price;
+            if (Ware.Description != SelectedWare.Description)
+                Ware.Description = SelectedWare.Description;
+
+            if (Ware.Price != SelectedWare.Price)
+                Ware.Price = SelectedWare.Price;
         }
 
-        private async void saveChangesMethodAsync()
+        private async void SaveChangesMethodAsync()
         {
             using (context = new CraftToolsContext())
             {
                 if (IsReadOnly == true)
                 {
+                    IsEnabled = true;
+                    IsVisible = Visibility.Visible;
                     IsReadOnly = false;
                     EditBoxCurentIcon = "Check";
                 }
                 else
                 {
+                    IsEnabled = false;
+                    IsVisible = Visibility.Hidden;
                     IsReadOnly = true;
-                    var loss = context.Losses
-                        .Where(x => x.LossId == SelectedLoss.LossId)
+                    var Ware = context.Wares
+                        .Where(x => x.WareId == SelectedWare.WareId)
                         .FirstOrDefault();
-                    Comparison(ref loss);
+                    Comparison(ref Ware);
                     await context.SaveChangesAsync();
                     EditBoxCurentIcon = "Pencil";
                 }
             }
         }
 
-        public async Task AddLossMethodAsync()
+        public async Task AddWareMethodAsync()
         {
             using (context = new CraftToolsContext())
             {
                 try
                 {
-                    context.Losses.Add(AddedLoss);
+                    context.Wares.Add(AddedWare);
                     await context.SaveChangesAsync();
-                    Losses.Add(new Loss { Name = AddedLoss.Name, Description = AddedLoss.Description, Price = AddedLoss.Price, LossId = AddedLoss.LossId });
-                    AddedLoss.Clear();
+                    Wares.Add(
+                        new Ware
+                        {
+                            Name = AddedWare.Name,
+                            Description = AddedWare.Description,
+                            Price = AddedWare.Price,
+                            WareId = AddedWare.WareId,
+                            Image = AddedWare.Image
+                        });
+                    AddedWare.Clear();
                 }
                 catch (Exception ex)
                 {
@@ -241,20 +285,44 @@ namespace CraftTools.ViewModels
             }
         }
 
-        public async void DeleteLossMethod()
+        public async void DeleteWareMethod()
         {
             using (context = new CraftToolsContext())
             {
                 try
                 {
-                    Loss prof = context.Losses.Where(o => o.LossId == SelectedLoss.LossId).FirstOrDefault();
-                    context.Losses.Remove(prof);
+                    Ware Ware = context.Wares.Where(o => o.WareId == SelectedWare.WareId).FirstOrDefault();
+                    context.Wares.Remove(Ware);
                     await context.SaveChangesAsync();
-                    Losses.Remove(SelectedLoss);
+                    Wares.Remove(SelectedWare);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Ошибка удаления: " + ex.Source + " " + ex.Message);
+                }
+            }
+        }
+
+        private void AddMaterilImageMethod(int i)
+        {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                FilterIndex = 3,
+                Filter = "Файлы изображений (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.png"
+            };
+            if (ofd.ShowDialog() == true)
+            {
+                switch (i)
+                {
+                    case 1:
+                        SelectedWare.Image = Tools.ImageToByteArrayFromFilePath(ofd.FileName);
+                        break;
+                    case 2:
+                        AddedWare.Image = Tools.ImageToByteArrayFromFilePath(ofd.FileName);
+                        break;
+                    default:
+                        MessageBox.Show("Ошибка добавления изображения");
+                        break;
                 }
             }
         }
