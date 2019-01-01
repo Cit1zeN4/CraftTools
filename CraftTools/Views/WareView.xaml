@@ -101,6 +101,8 @@
                         Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
                         MaxLines="20"/>
 
+                    <Button Content="WareMaterial" Command="{Binding OpenWareMaterialCommand, Mode=OneWay, Source={StaticResource _WareVM}}"/>
+
                     <StackPanel 
                         Orientation="Horizontal" 
                         HorizontalAlignment="Center"

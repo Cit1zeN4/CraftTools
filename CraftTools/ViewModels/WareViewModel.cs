@@ -1,5 +1,6 @@
 ﻿using CraftTools.Helpers;
 using CraftTools.Models;
+using CraftTools.Views;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -191,6 +192,7 @@ namespace CraftTools.ViewModels
         BaseCommand saveChangesCmd;
         BaseCommand deleteWareCmd;
         BaseCommand addWareImageCmd;
+        BaseCommand openWareMaterilCmd;
 
         #endregion
 
@@ -209,6 +211,11 @@ namespace CraftTools.ViewModels
         public BaseCommand AddWareImageCommand
         {
             get => addWareImageCmd ?? (addWareImageCmd = new BaseCommand(obj => AddMaterilImageMethod((int)obj)));
+        }
+
+        public BaseCommand OpenWareMaterialCommand
+        {
+            get => openWareMaterilCmd ?? (openWareMaterilCmd = new BaseCommand(obj => OpenWareMaterialViewMethod()));
         }
 
         #endregion
@@ -325,6 +332,12 @@ namespace CraftTools.ViewModels
                         break;
                 }
             }
+        }
+
+        private void OpenWareMaterialViewMethod()
+        {
+            WareMaterialView wareMaterial = new WareMaterialView();
+            wareMaterial.Show();
         }
 
         #endregion
