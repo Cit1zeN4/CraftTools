@@ -136,6 +136,7 @@ namespace CraftTools.ViewModels
         #region Command Fields
 
         BaseCommand fromMaterialToWareMaterialCmd;
+        BaseCommand fromWareMaterialToMaterialCmd;
 
         #endregion
 
@@ -146,13 +147,37 @@ namespace CraftTools.ViewModels
             get => fromMaterialToWareMaterialCmd ?? (fromMaterialToWareMaterialCmd = new BaseCommand(obj => FromMaterialToWareMaterialMethod()));
         }
 
+        public BaseCommand FromWareMaterialToMaterialCommand
+        {
+            get => fromWareMaterialToMaterialCmd ?? (fromWareMaterialToMaterialCmd = new BaseCommand(obj => FromWareMaterialToMaterialMethod()));
+        }
+
         #endregion
 
         #region Command Methods
 
         private void FromMaterialToWareMaterialMethod()
         {
-            BaseWareViewModel.AddedWare.WareMaterials.Add(Tools.ConvertMaterialToWareMaterial(SelectedMaterial));
+            try
+            {
+                BaseWareViewModel.AddedWare.WareMaterials.Add(Tools.ConvertMaterialToWareMaterial(SelectedMaterial));
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Ниодин элемент не выбрае");
+            }
+        }
+
+        private void FromWareMaterialToMaterialMethod()
+        {
+            try
+            {
+                baseWareViewModel.AddedWare.WareMaterials.Remove(SelectedWareMaterial);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Ниодин элемент не выбрае");
+            }
         }
 
         #endregion
