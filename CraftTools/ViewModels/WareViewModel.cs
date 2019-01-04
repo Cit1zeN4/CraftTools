@@ -337,7 +337,9 @@ namespace CraftTools.ViewModels
         private void OpenWareMaterialViewMethod()
         {
             WareMaterialView wareMaterial = new WareMaterialView();
-            wareMaterial.Show();
+            WareMaterialViewModel wareMaterialVM = (WareMaterialViewModel)wareMaterial.Resources["wareMaterialVM"];
+            wareMaterialVM.BaseWareViewModel = this;
+            wareMaterial.ShowDialog();
         }
 
         #endregion

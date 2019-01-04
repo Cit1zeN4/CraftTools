@@ -7,13 +7,16 @@
         xmlns:viewModel="clr-namespace:CraftTools.ViewModels"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
+        Loaded="Window_Loaded"
         Title="Добавить материалы" Height="450" Width="800">
 
     <Window.Resources>
         <viewModel:WareMaterialViewModel x:Key="wareMaterialVM"/>
     </Window.Resources>
     
-    <Grid>
+    <Grid 
+        x:Name="WareMaterialMainGrid"
+        DataContext="{StaticResource wareMaterialVM}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="60"/>
@@ -58,7 +61,9 @@
             <Button 
                 Width="40" Height="40" 
                 Margin="0 5 0 5" Style="{StaticResource MaterialDesignFlatButton}"
-                Padding="0 0 0 0">
+                Padding="0 0 0 0" 
+                Command="{Binding FromMaterialToWareMaterialCommand, 
+                Mode=OneWay, Source={StaticResource wareMaterialVM}}">
                 <materialDesign:PackIcon Kind="ArrowRightBold"/>
             </Button>
             <Button 
@@ -83,19 +88,87 @@
 
                 <ListBox 
                     x:Name="WareMaterialList"
-                    Grid.Column="0"
-                    DataContext="{StaticResource wareMaterialVM}"
-                    ItemsSource="{Binding Materials, Source={StaticResource wareMaterialVM}}"
-                    SelectedItem="{Binding SelectedMaterial, 
+                    HorizontalContentAlignment="Stretch"
+                    DataContext="{Binding BaseWareViewModel.AddedWare}"
+                    ItemsSource="{Binding BaseWareViewModel.AddedWare.WareMaterials, 
                     Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                    Source={StaticResource wareMaterialVM}}">
+                    Source={StaticResource wareMaterialVM}}"
+                    materialDesign:RippleAssist.IsDisabled="True">
 
                     <ListBox.ItemTemplate>
-
                         <DataTemplate>
-                            <TextBlock Text="{Binding Name}"/>
-                        </DataTemplate>
 
+                            <materialDesign:Card>
+
+                                <Grid>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="60"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <materialDesign:ColorZone
+                                        Grid.Column="0" Grid.ColumnSpan="2"
+                                        Grid.Row="0"
+                                        Mode="PrimaryMid"
+                                        Padding="5"
+                                        materialDesign:ShadowAssist.ShadowDepth="Depth2">
+
+                                        <TextBlock Text="{Binding Name}"/>
+
+                                    </materialDesign:ColorZone>
+
+                                    <CheckBox 
+                                        x:Name="HaveSizeCheckBox"
+                                        Margin="10 0 0 0"
+                                        Grid.Column="0" Grid.Row="1" 
+                                        IsChecked="{Binding HaveSize}" 
+                                        IsEnabled="False" Content="Имеет размеры"/>
+
+                                    <TextBox
+                                        Width="90" Margin="0 0 10 0"
+                                        HorizontalAlignment="Right"
+                                        Grid.Column="0" Grid.Row="2"
+                                        materialDesign:HintAssist.Hint="Длина"
+                                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                        Text="{Binding Length, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                        IsEnabled="{Binding IsChecked, ElementName=HaveSizeCheckBox}"/>
+
+                                    <TextBox
+                                        Width="90" Margin="10 0 0 0"
+                                        HorizontalAlignment="Left"
+                                        Grid.Column="1" Grid.Row="2"
+                                        materialDesign:HintAssist.Hint="Ширина"
+                                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                        Text="{Binding Width, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                        IsEnabled="{Binding IsChecked, ElementName=HaveSizeCheckBox}"/>
+
+                                    <TextBox
+                                        VerticalAlignment="Center"
+                                        Width="120"
+                                        HorizontalAlignment="Center"
+                                        HorizontalContentAlignment="Left"
+                                        Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3"
+                                        materialDesign:HintAssist.Hint="Стоимость, BYN"
+                                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                        Text="{Binding CustomPrice, Mode=TwoWay, 
+                                        UpdateSourceTrigger=PropertyChanged}" 
+                                        FontWeight="Bold" FontSize="20"
+                                        Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                        IsReadOnly="True"/>
+
+                                </Grid>
+
+                            </materialDesign:Card>
+
+                        </DataTemplate>
                     </ListBox.ItemTemplate>
 
                 </ListBox>

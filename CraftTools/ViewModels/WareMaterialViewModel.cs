@@ -1,12 +1,15 @@
-﻿using CraftTools.Models;
+﻿using CraftTools.Helpers;
+using CraftTools.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CraftTools.ViewModels
 {
@@ -30,8 +33,13 @@ namespace CraftTools.ViewModels
 
         #region Fields
 
+        WareViewModel baseWareViewModel;
+        ObservableCollection<Material> materials;
+        CraftToolsContext context;
         WareMaterial addedWareMaterial;
         Material selectedMaterial;
+        WareMaterial selectedWareMaterial;
+        bool isDataLoaded = false;
 
         #endregion
 
@@ -39,8 +47,6 @@ namespace CraftTools.ViewModels
 
         public WareMaterialViewModel()
         {
-            Materials = new ObservableCollection<Material>();
-            Materials.Add(new Material { Name = "Test" });
             AddedWareMaterial = new WareMaterial();
         }
 
@@ -48,7 +54,25 @@ namespace CraftTools.ViewModels
 
         #region Properties
 
-        public ObservableCollection<Material> Materials { get; set; }
+        public WareViewModel BaseWareViewModel
+        {
+            get => baseWareViewModel;
+            set
+            {
+                baseWareViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Material> Materials
+        {
+            get => materials;
+            set
+            {
+                materials = value;
+                OnPropertyChanged();
+            }
+        }
 
         public Material SelectedMaterial
         {
@@ -56,6 +80,16 @@ namespace CraftTools.ViewModels
             set
             {
                 selectedMaterial = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public WareMaterial SelectedWareMaterial
+        {
+            get => selectedWareMaterial;
+            set
+            {
+                selectedWareMaterial = value;
                 OnPropertyChanged();
             }
         }
@@ -70,9 +104,30 @@ namespace CraftTools.ViewModels
             }
         }
 
+        public bool IsDataLoaded
+        {
+            get => isDataLoaded;
+            set
+            {
+                isDataLoaded = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Methods
+
+        public async void LoadData()
+        {
+            List<Material> list;
+            using (context = new CraftToolsContext())
+            {
+                list = await context.Materials.ToListAsync();
+            }
+            Materials = new ObservableCollection<Material>(list);
+            IsDataLoaded = true;
+        }
 
         #endregion
 
@@ -80,17 +135,25 @@ namespace CraftTools.ViewModels
 
         #region Command Fields
 
-
+        BaseCommand fromMaterialToWareMaterialCmd;
 
         #endregion
 
         #region Command Properties
 
-
+        public BaseCommand FromMaterialToWareMaterialCommand
+        {
+            get => fromMaterialToWareMaterialCmd ?? (fromMaterialToWareMaterialCmd = new BaseCommand(obj => FromMaterialToWareMaterialMethod()));
+        }
 
         #endregion
 
         #region Command Methods
+
+        private void FromMaterialToWareMaterialMethod()
+        {
+            BaseWareViewModel.AddedWare.WareMaterials.Add(Tools.ConvertMaterialToWareMaterial(SelectedMaterial));
+        }
 
         #endregion
 

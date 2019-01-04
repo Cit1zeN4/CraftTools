@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -34,6 +35,8 @@ namespace CraftTools.Models
         private double _length;
         private double _width;
         private bool _haveSize;
+        private double _cubicCM;
+        private double _customPrice;
 
         #endregion
 
@@ -66,11 +69,9 @@ namespace CraftTools.Models
             get => _price;
             set
             {
-                if (_price != value)
-                {
-                    _price = value;
-                    OnPropertyChanged();
-                }
+                _price = value;
+                CubicCM = Price / (Length * Width);
+                OnPropertyChanged();
             }
         }
 
@@ -80,6 +81,7 @@ namespace CraftTools.Models
             set
             {
                 _length = value;
+                CustomPrice = CubicCM * Length * Width;
                 OnPropertyChanged();
             }
         }
@@ -90,6 +92,7 @@ namespace CraftTools.Models
             set
             {
                 _width = value;
+                CustomPrice = CubicCM * Length * Width;
                 OnPropertyChanged();
             }
         }
@@ -105,6 +108,29 @@ namespace CraftTools.Models
         }
 
         public Ware Ware { get; set; }
+
+        [NotMapped]
+        public double CubicCM
+        {
+            get => _cubicCM;
+            set
+            {
+                _cubicCM = value;
+                CustomPrice = CubicCM * Length * Width;
+                OnPropertyChanged();
+            }
+        }
+
+        [NotMapped]
+        public double CustomPrice
+        {
+            get => _customPrice;
+            set
+            {
+                _customPrice = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 

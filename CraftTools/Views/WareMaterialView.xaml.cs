@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CraftTools.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,20 @@ namespace CraftTools.Views
         public WareMaterialView()
         {
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (IsLoaded)
+            {
+                WareMaterialViewModel viewModel = (WareMaterialViewModel)WareMaterialMainGrid.DataContext;
+                if (!viewModel.IsDataLoaded)
+                {
+                    System.ComponentModel.BackgroundWorker worker = new System.ComponentModel.BackgroundWorker();
+                    worker.DoWork += (obj, ea) => viewModel.LoadData();
+                    worker.RunWorkerAsync();
+                }
+            }
         }
     }
 }
