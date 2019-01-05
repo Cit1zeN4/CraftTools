@@ -26,7 +26,6 @@
         <materialDesign:DialogHost.DialogContent>
 
             <Grid>
-
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="300"/>
                     <ColumnDefinition Width="*"/>
@@ -101,7 +100,12 @@
                         Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
                         MaxLines="20"/>
 
-                    <Button Content="WareMaterial" Command="{Binding OpenWareMaterialCommand, Mode=OneWay, Source={StaticResource _WareVM}}"/>
+                    <Button 
+                        Content="Себестоимость" 
+                        Command="{Binding OpenWareMaterialCommand, 
+                        Mode=OneWay, Source={StaticResource _WareVM}}" 
+                        Margin="10 0 10 0"
+                        Style="{StaticResource MaterialDesignFlatButton}"/>
 
                     <StackPanel 
                         Orientation="Horizontal" 

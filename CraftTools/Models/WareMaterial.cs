@@ -71,7 +71,10 @@ namespace CraftTools.Models
             set
             {
                 _price = value;
-                CubicCM = Price / (Length * Width);
+                if ((Length != 0) && (Width != 0))
+                    CubicCM = Price / (Length * Width);
+                else
+                    CubicCM = 0;
                 OnPropertyChanged();
             }
         }
@@ -117,7 +120,10 @@ namespace CraftTools.Models
             set
             {
                 _cubicCM = value;
-                CustomPrice = CubicCM * Length * Width;
+                if (CubicCM != 0)
+                    CustomPrice = CubicCM * Length * Width;
+                else
+                    CustomPrice = Price;
                 OnPropertyChanged();
             }
         }
