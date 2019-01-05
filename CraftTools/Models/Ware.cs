@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Linq;
 
 namespace CraftTools.Models
 {
@@ -37,6 +38,7 @@ namespace CraftTools.Models
         private string _name;
         private string _description;
         private double _price;
+        private ObservableCollection<WareMaterial> wareMaterials;
 
         #endregion
 
@@ -87,7 +89,15 @@ namespace CraftTools.Models
             }
         }
 
-        public ObservableCollection<WareMaterial> WareMaterials { get; set; }
+        public ObservableCollection<WareMaterial> WareMaterials
+        {
+            get => wareMaterials;
+            set
+            {
+                wareMaterials = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 

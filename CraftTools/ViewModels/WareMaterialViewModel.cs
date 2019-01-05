@@ -39,6 +39,7 @@ namespace CraftTools.ViewModels
         WareMaterial addedWareMaterial;
         Material selectedMaterial;
         WareMaterial selectedWareMaterial;
+        double totalPrice;
         bool isDataLoaded = false;
 
         #endregion
@@ -114,6 +115,16 @@ namespace CraftTools.ViewModels
             }
         }
 
+        public double TotalPrice
+        {
+            get => totalPrice;
+            set
+            {
+                totalPrice = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -126,7 +137,28 @@ namespace CraftTools.ViewModels
                 list = await context.Materials.ToListAsync();
             }
             Materials = new ObservableCollection<Material>(list);
+            BaseWareViewModel.AddedWare.WareMaterials.CollectionChanged += WareMaterials_CollectionChanged;
             IsDataLoaded = true;
+        }
+
+        private void WareMaterials_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            BaseWareViewModel.AddedWare.Price = BaseWareViewModel.AddedWare.WareMaterials.Sum(n => n.CustomPrice);
+            if (e.OldItems != null)
+            {
+                foreach (WareMaterial item in e.OldItems)
+                    item.PropertyChanged -= Item_PropertyChanged;
+            }
+            if (e.NewItems != null)
+            {
+                foreach (WareMaterial item in e.NewItems)
+                    item.PropertyChanged += Item_PropertyChanged;
+            }
+        }
+
+        private void Item_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            BaseWareViewModel.AddedWare.Price = BaseWareViewModel.AddedWare.WareMaterials.Sum(n => n.CustomPrice);
         }
 
         #endregion
