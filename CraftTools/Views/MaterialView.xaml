@@ -207,7 +207,8 @@
                 SelectedItem="{Binding SelectedMaterial, 
                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Background="{x:Null}"
-                materialDesign:RippleAssist.IsDisabled="True">
+                materialDesign:RippleAssist.IsDisabled="True"
+                VirtualizingPanel.ScrollUnit="Pixel">
 
                 <ListBox.ItemTemplate>
 

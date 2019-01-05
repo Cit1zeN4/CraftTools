@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CraftTools.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,20 @@ namespace CraftTools.Helpers
         {
             byte[] imageArray = File.ReadAllBytes(imagefilePath);
             return imageArray;
+        }
+
+        public static WareMaterial ConvertMaterialToWareMaterial(Material material)
+        {
+            WareMaterial wareMaterial = new WareMaterial
+            {
+                Name = material.Name,
+                Description = material.Description,
+                HaveSize = material.HaveSize,
+                Length = material.Length,
+                Width = material.Width,
+                Price = material.Price
+            };
+            return wareMaterial;
         }
     }
 }

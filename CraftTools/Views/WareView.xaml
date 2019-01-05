@@ -101,6 +101,8 @@
                         Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
                         MaxLines="20"/>
 
+                    <Button Content="WareMaterial" Command="{Binding OpenWareMaterialCommand, Mode=OneWay, Source={StaticResource _WareVM}}"/>
+
                     <StackPanel 
                         Orientation="Horizontal" 
                         HorizontalAlignment="Center"
@@ -185,7 +187,8 @@
                 SelectedItem="{Binding SelectedWare, 
                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Background="{x:Null}"
-                materialDesign:RippleAssist.IsDisabled="True">
+                materialDesign:RippleAssist.IsDisabled="True"
+                VirtualizingPanel.ScrollUnit="Pixel">
 
                 <ListBox.ItemTemplate>
 

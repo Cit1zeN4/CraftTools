@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
 
 namespace CraftTools.Models
@@ -73,7 +74,7 @@ namespace CraftTools.Models
             get => _price;
             set
             {
-                if(_price != value)
+                if (_price != value)
                 {
                     _price = value;
                     OnPropertyChanged();
