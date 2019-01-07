@@ -26,7 +26,6 @@
         <materialDesign:DialogHost.DialogContent>
 
             <Grid>
-
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="300"/>
                     <ColumnDefinition Width="*"/>
@@ -101,7 +100,12 @@
                         Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
                         MaxLines="20"/>
 
-                    <Button Content="WareMaterial" Command="{Binding OpenWareMaterialCommand, Mode=OneWay, Source={StaticResource _WareVM}}"/>
+                    <Button 
+                        Content="Себестоимость" 
+                        Command="{Binding OpenWareMaterialCommand, 
+                        Mode=OneWay, Source={StaticResource _WareVM}}" 
+                        Margin="10 0 10 0"
+                        Style="{StaticResource MaterialDesignFlatButton}"/>
 
                     <StackPanel 
                         Orientation="Horizontal" 
@@ -112,7 +116,7 @@
                             x:Name="AddedItemPrice"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                             Margin="0 0 10 10" HorizontalAlignment="Stretch"
-                            materialDesign:HintAssist.Hint="Цена"
+                            materialDesign:HintAssist.Hint="Цена" IsReadOnly="True"
                             Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
 
                         <TextBlock 
@@ -382,9 +386,7 @@
                             Foreground="{DynamicResource PrimaryHueMidBrush}"
                             Text="{Binding Price, 
                             Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
-                            IsReadOnly="{Binding IsReadOnly, 
-                            Source={StaticResource _WareVM}, 
-                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            IsReadOnly="True"
                             materialDesign:HintAssist.Hint="Цена"/>
 
                         <TextBlock 
