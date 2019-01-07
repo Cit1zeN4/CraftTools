@@ -13,6 +13,7 @@
 
         public DbSet<Material> Materials { get; set; }
         public DbSet<Ware> Wares { get; set; }
+        public DbSet<WareMaterial> WareMaterials { get; set; }
         public DbSet<Profit> Profits { get; set; }
         public DbSet<Loss> Losses { get; set; }
     }

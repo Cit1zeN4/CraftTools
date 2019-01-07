@@ -176,7 +176,7 @@ namespace CraftTools.ViewModels
             List<Ware> list;
             using (context = new CraftToolsContext())
             {
-                list = await context.Wares.ToListAsync();
+                list = await context.Wares.Include(w => w.WareMaterials).ToListAsync();
             }
             ProgressBarValue = 100;
             Wares = new ObservableCollection<Ware>(list);
@@ -215,7 +215,7 @@ namespace CraftTools.ViewModels
 
         public BaseCommand OpenWareMaterialCommand
         {
-            get => openWareMaterilCmd ?? (openWareMaterilCmd = new BaseCommand(obj => OpenWareMaterialViewMethod()));
+            get => openWareMaterilCmd ?? (openWareMaterilCmd = new BaseCommand(obj => OpenWareMaterialViewMethod((bool)obj)));
         }
 
         #endregion
@@ -238,6 +238,9 @@ namespace CraftTools.ViewModels
 
             if (Ware.Price != SelectedWare.Price)
                 Ware.Price = SelectedWare.Price;
+
+            //if (Ware.WareMaterials != SelectedWare.WareMaterials)
+            //    Ware.WareMaterials = SelectedWare.WareMaterials;
         }
 
         private async void SaveChangesMethodAsync()
@@ -257,6 +260,7 @@ namespace CraftTools.ViewModels
                     IsVisible = Visibility.Hidden;
                     IsReadOnly = true;
                     var Ware = context.Wares
+                        .Include(x => x.WareMaterials)
                         .Where(x => x.WareId == SelectedWare.WareId)
                         .FirstOrDefault();
                     Comparison(ref Ware);
@@ -281,7 +285,8 @@ namespace CraftTools.ViewModels
                             Description = AddedWare.Description,
                             Price = AddedWare.Price,
                             WareId = AddedWare.WareId,
-                            Image = AddedWare.Image
+                            Image = AddedWare.Image,
+                            WareMaterials = AddedWare.WareMaterials
                         });
                     AddedWare.Clear();
                 }
@@ -298,7 +303,9 @@ namespace CraftTools.ViewModels
             {
                 try
                 {
-                    Ware Ware = context.Wares.Where(o => o.WareId == SelectedWare.WareId).FirstOrDefault();
+                    Ware Ware = context.Wares
+                        .Include(o => o.WareMaterials)
+                        .FirstOrDefault(o => o.WareId == SelectedWare.WareId);
                     context.Wares.Remove(Ware);
                     await context.SaveChangesAsync();
                     Wares.Remove(SelectedWare);
@@ -334,12 +341,22 @@ namespace CraftTools.ViewModels
             }
         }
 
-        private void OpenWareMaterialViewMethod()
+        private void OpenWareMaterialViewMethod(bool flag)
         {
-            WareMaterialView wareMaterial = new WareMaterialView();
-            WareMaterialViewModel wareMaterialVM = (WareMaterialViewModel)wareMaterial.Resources["wareMaterialVM"];
-            wareMaterialVM.BaseWareViewModel = this;
-            wareMaterial.ShowDialog();
+            if(flag)
+            {
+                WareMaterialView wareMaterial = new WareMaterialView();
+                WareMaterialViewModel wareMaterialVM = (WareMaterialViewModel)wareMaterial.Resources["wareMaterialVM"];
+                wareMaterialVM.BaseWareViewModel = this;
+                wareMaterial.ShowDialog();
+            }
+            else
+            {
+                SelectedWareMaterialView wareMaterial = new SelectedWareMaterialView();
+                SelectedWareMaterialViewModel wareMaterialVM = (SelectedWareMaterialViewModel)wareMaterial.Resources["wareMaterialVM"];
+                wareMaterialVM.BaseWareViewModel = this;
+                wareMaterial.ShowDialog();
+            }
         }
 
         #endregion
