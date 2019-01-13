@@ -278,8 +278,6 @@ namespace CraftTools.ViewModels
                             WareMaterial wareMaterial = context.WareMaterials.Where(o => o.WareMaterialId == cm.WareMaterial.WareMaterialId).FirstOrDefault();
                             Tools.WareMaterialApplyChanges(ref wareMaterial, cm);
                         }
-                        
-                        Console.WriteLine(cm.WareMaterialId + " " + cm.Status);
                     }
 
                     await context.SaveChangesAsync();

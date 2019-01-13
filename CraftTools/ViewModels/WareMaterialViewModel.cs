@@ -238,6 +238,10 @@ namespace CraftTools.ViewModels
         {
             if(userPriceMarkupButton)
             {
+                if (BaseWareViewModel.AddedWare.WareMaterials.Where(o => o.Name == "Пользовательская наценка").FirstOrDefault() != null)
+                {
+                    BaseWareViewModel.AddedWare.WareMaterials.Remove(BaseWareViewModel.AddedWare.WareMaterials.FirstOrDefault(n => n.Name == "Пользовательская наценка"));
+                }
                 BaseWareViewModel.AddedWare.WareMaterials.Add(new WareMaterial { Name = "Пользовательская наценка", Price = 1, HaveSize = false });
                 userPriceMarkupButton = false;
                 UserPriceMarkupIcon = "CurrencyUsdOff";
