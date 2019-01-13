@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace CraftTools.Models
 {
@@ -89,7 +90,8 @@ namespace CraftTools.Models
             }
         }
 
-        public ObservableCollection<WareMaterial> WareMaterials
+        [Required]
+        public virtual ObservableCollection<WareMaterial> WareMaterials
         {
             get => wareMaterials;
             set

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -111,9 +112,6 @@ namespace CraftTools.Models
             }
         }
 
-        public Ware Ware { get; set; }
-
-        [NotMapped]
         public double CubicCM
         {
             get => _cubicCM;
@@ -128,7 +126,6 @@ namespace CraftTools.Models
             }
         }
 
-        [NotMapped]
         public double CustomPrice
         {
             get => _customPrice;
@@ -138,6 +135,9 @@ namespace CraftTools.Models
                 OnPropertyChanged();
             }
         }
+
+        [Required]
+        public Ware Ware { get; set; }
 
         #endregion
 
