@@ -167,6 +167,8 @@ namespace CraftTools.ViewModels
             }
         }
 
+        public WareMaterialChanger Changer { get; set; }
+
         #endregion
 
         #region Methods
@@ -238,9 +240,6 @@ namespace CraftTools.ViewModels
 
             if (Ware.Price != SelectedWare.Price)
                 Ware.Price = SelectedWare.Price;
-
-            //if (Ware.WareMaterials != SelectedWare.WareMaterials)
-            //    Ware.WareMaterials = SelectedWare.WareMaterials;
         }
 
         private async void SaveChangesMethodAsync()
@@ -264,6 +263,25 @@ namespace CraftTools.ViewModels
                         .Where(x => x.WareId == SelectedWare.WareId)
                         .FirstOrDefault();
                     Comparison(ref Ware);
+                    foreach (ChangerModel cm in Changer.List)
+                    {
+                        if (cm.Status == ChangerModel.WareMaterialStatus.Added)
+                            Ware.WareMaterials.Add(cm.WareMaterial);
+                        if (cm.Status == ChangerModel.WareMaterialStatus.Deleted)
+                        {
+                            context.WareMaterials
+                                .Remove(context.WareMaterials
+                                .Where(o => o.WareMaterialId == cm.WareMaterial.WareMaterialId).FirstOrDefault());
+                        }
+                        if (cm.Status == ChangerModel.WareMaterialStatus.Changed)
+                        {
+                            WareMaterial wareMaterial = context.WareMaterials.Where(o => o.WareMaterialId == cm.WareMaterial.WareMaterialId).FirstOrDefault();
+                            Tools.WareMaterialApplyChanges(ref wareMaterial, cm);
+                        }
+                        
+                        Console.WriteLine(cm.WareMaterialId + " " + cm.Status);
+                    }
+
                     await context.SaveChangesAsync();
                     EditBoxCurentIcon = "Pencil";
                 }
@@ -354,6 +372,8 @@ namespace CraftTools.ViewModels
             {
                 SelectedWareMaterialView wareMaterial = new SelectedWareMaterialView();
                 SelectedWareMaterialViewModel wareMaterialVM = (SelectedWareMaterialViewModel)wareMaterial.Resources["wareMaterialVM"];
+                Changer = new WareMaterialChanger(SelectedWare.WareMaterials);
+                wareMaterialVM.Changer = Changer;
                 wareMaterialVM.BaseWareViewModel = this;
                 wareMaterial.ShowDialog();
             }

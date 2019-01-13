@@ -117,6 +117,8 @@ namespace CraftTools.ViewModels
             }
         }
 
+        public WareMaterialChanger Changer { get; set; }
+
         #endregion
 
         #region Methods
@@ -140,7 +142,6 @@ namespace CraftTools.ViewModels
 
         private void WareMaterials_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            MessageBox.Show(BaseWareViewModel.SelectedWare.WareMaterials.Sum(n => n.CustomPrice).ToString());
             BaseWareViewModel.SelectedWare.Price = BaseWareViewModel.SelectedWare.WareMaterials.Sum(n => n.CustomPrice);
             if (e.OldItems != null)
             {
@@ -157,7 +158,7 @@ namespace CraftTools.ViewModels
         private void CalcTotalPrice(object sender, PropertyChangedEventArgs e)
         {
             BaseWareViewModel.SelectedWare.Price = BaseWareViewModel.SelectedWare.WareMaterials.Sum(n => n.CustomPrice);
-            MessageBox.Show(BaseWareViewModel.SelectedWare.WareMaterials.Sum(n => n.CustomPrice).ToString());
+            Changer.Change((WareMaterial)sender);
         }
 
         #endregion
@@ -198,6 +199,7 @@ namespace CraftTools.ViewModels
             try
             {
                 BaseWareViewModel.SelectedWare.WareMaterials.Add(Tools.ConvertMaterialToWareMaterial(SelectedMaterial));
+                Changer.Add(Tools.ConvertMaterialToWareMaterial(SelectedMaterial));
             }
             catch (Exception ex)
             {
@@ -209,6 +211,7 @@ namespace CraftTools.ViewModels
         {
             try
             {
+                Changer.Delete(SelectedWareMaterial);
                 baseWareViewModel.SelectedWare.WareMaterials.Remove(SelectedWareMaterial);
             }
             catch (Exception ex)
@@ -221,13 +224,22 @@ namespace CraftTools.ViewModels
         {
             if (userPriceMarkupButton)
             {
-                BaseWareViewModel.SelectedWare.WareMaterials.Add(new WareMaterial { Name = "Пользовательская наценка", Price = 1, HaveSize = false });
+                if(BaseWareViewModel.SelectedWare.WareMaterials.Where(o => o.Name == "Пользовательская наценка").FirstOrDefault() != null)
+                {
+                    Changer.Delete(BaseWareViewModel.SelectedWare.WareMaterials.Where(o => o.Name == "Пользовательская наценка").FirstOrDefault());
+                    BaseWareViewModel.SelectedWare.WareMaterials.Remove(BaseWareViewModel.SelectedWare.WareMaterials.FirstOrDefault(n => n.Name == "Пользовательская наценка"));
+                }
+                WareMaterial wareMaterial = new WareMaterial { Name = "Пользовательская наценка", Price = 1, HaveSize = false };
+                BaseWareViewModel.SelectedWare.WareMaterials.Add(wareMaterial);
+                Changer.Add(wareMaterial);
                 userPriceMarkupButton = false;
                 UserPriceMarkupIcon = "CurrencyUsdOff";
             }
             else
             {
-                BaseWareViewModel.SelectedWare.WareMaterials.Remove(BaseWareViewModel.SelectedWare.WareMaterials.FirstOrDefault(n => n.Name == "Пользовательская наценка"));
+                WareMaterial wareMaterial = BaseWareViewModel.SelectedWare.WareMaterials.FirstOrDefault(n => n.Name == "Пользовательская наценка");
+                BaseWareViewModel.SelectedWare.WareMaterials.Remove(wareMaterial);
+                Changer.Delete(wareMaterial);
                 userPriceMarkupButton = true;
                 UserPriceMarkupIcon = "CurrencyUsd";
             }

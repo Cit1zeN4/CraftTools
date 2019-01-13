@@ -30,5 +30,12 @@ namespace CraftTools.Helpers
             };
             return wareMaterial;
         }
+
+        public static void WareMaterialApplyChanges(ref WareMaterial wareMaterial, ChangerModel model)
+        {
+            wareMaterial.Length = model.WareMaterial.Length;
+            wareMaterial.Width = model.WareMaterial.Width;
+            wareMaterial.CustomPrice = model.WareMaterial.CustomPrice;
+        }
     }
 }
