@@ -86,6 +86,9 @@ namespace CraftTools.ViewModels
                 case 4:
                     CurrentView = new WareView();
                     break;
+                case 5:
+                    CurrentView = new SettingsView();
+                    break;
                 default:
                     MessageBox.Show("Ошибка открытия view");
                     break;

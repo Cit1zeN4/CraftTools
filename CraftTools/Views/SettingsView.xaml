@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="CraftTools.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CraftTools.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:viewModel="clr-namespace:CraftTools.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="{DynamicResource MaterialDesignPaper}">
+    <UserControl.Resources>
+        <viewModel:SettingsViewModel x:Key="SettingVM"/>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel 
+            DataContext="{StaticResource SettingVM}"
+            Orientation="Vertical" 
+            ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="20">
+            <StackPanel Margin="5">
+                <TextBox
+                    materialDesign:HintAssist.Hint="Название сервера"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                    Text="{Binding DBServerName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+            </StackPanel>
+            <StackPanel Margin="5">
+                <TextBox
+                    materialDesign:HintAssist.Hint="Название базы данных"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                    Text="{Binding DBDatabaseName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+            </StackPanel>
+            <StackPanel Margin="5">
+                <CheckBox
+                    x:Name="SecurityCheckBox"
+                    Content="Использовать интегрированную защиту"
+                    IsChecked="{Binding DBUseIntegratedSecurity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <StackPanel Margin="5">
+                <TextBox
+                    materialDesign:HintAssist.Hint="Имя пользователя"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                    Text="{Binding DBUserName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                    IsEnabled="{Binding DBUseIntegratedSecurity, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <StackPanel Margin="5">
+                <TextBox
+                    materialDesign:HintAssist.Hint="Пароль"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                    Text="{Binding DBPassword, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                    IsEnabled="{Binding DBUseIntegratedSecurity, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

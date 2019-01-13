@@ -7,7 +7,7 @@
     public class CraftToolsContext : DbContext
     {
         public CraftToolsContext()
-            : base("name=CraftTools.Properties.Settings.CraftToolsContext")
+            : base(Helpers.Tools.GetConnectionString())
         {
         }
 

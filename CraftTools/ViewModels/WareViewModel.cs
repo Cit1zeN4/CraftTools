@@ -370,6 +370,7 @@ namespace CraftTools.ViewModels
             }
             else
             {
+                MessageBox.Show(Tools.GetConnectionString());
                 SelectedWareMaterialView wareMaterial = new SelectedWareMaterialView();
                 SelectedWareMaterialViewModel wareMaterialVM = (SelectedWareMaterialViewModel)wareMaterial.Resources["wareMaterialVM"];
                 Changer = new WareMaterialChanger(SelectedWare.WareMaterials);
