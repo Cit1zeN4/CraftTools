@@ -53,6 +53,9 @@ namespace CraftTools.ViewModels
         double progressBarValue = 0;
         string editBoxCurentIcon = "Pencil";
         GridLength editBoxLength = new GridLength(0);
+        double lossPrice;
+        double profitPrice;
+        double resultPrice;
 
         #endregion
 
@@ -145,6 +148,38 @@ namespace CraftTools.ViewModels
             }
         }
 
+        public double LossPrice
+        {
+            get => lossPrice;
+            set
+            {
+                lossPrice = Math.Round(value, 2);
+                ResultPrice = ProfitPrice - LossPrice;
+                OnPropertyChanged();
+            }
+        }
+
+        public double ProfitPrice
+        {
+            get => profitPrice;
+            set
+            {
+                profitPrice = Math.Round(value, 2);
+                ResultPrice = ProfitPrice - LossPrice;
+                OnPropertyChanged();
+            }
+        }
+
+        public double ResultPrice
+        {
+            get => resultPrice;
+            set
+            {
+                resultPrice = Math.Round(value, 2);
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -152,12 +187,16 @@ namespace CraftTools.ViewModels
         public async void LoadData()
         {
             List<Profit> list;
+            List<double> listLossPrice;
             using (context = new CraftToolsContext())
             {
-               list = await context.Profits.ToListAsync();
+                list = await context.Profits.ToListAsync();
+                listLossPrice = await context.Losses.Select(o => o.Price).ToListAsync();
             }
             ProgressBarValue = 100;
             Profits = new ObservableCollection<Profit>(list);
+            ProfitPrice = list.Sum(o => o.Price);
+            LossPrice = listLossPrice.Sum();
             IsDataLoaded = true;
         }
 
@@ -220,6 +259,7 @@ namespace CraftTools.ViewModels
                         .FirstOrDefault();
                     Comparison(ref prof);
                     await context.SaveChangesAsync();
+                    ProfitPrice = Profits.Sum(o => o.Price);
                     EditBoxCurentIcon = "Pencil";
                 }
             }
@@ -235,6 +275,7 @@ namespace CraftTools.ViewModels
                     await context.SaveChangesAsync();
                     Profits.Add(new Profit { Name = AddedProfit.Name, Description = AddedProfit.Description, Price = AddedProfit.Price, ProfitId = AddedProfit.ProfitId });       
                     AddedProfit.Clear();
+                    ProfitPrice = Profits.Sum(o => o.Price);
                 }
                 catch(Exception ex)
                 {
@@ -253,6 +294,7 @@ namespace CraftTools.ViewModels
                     context.Profits.Remove(prof);
                     await context.SaveChangesAsync();
                     Profits.Remove(SelectedProfit);
+                    ProfitPrice = Profits.Sum(o => o.Price);
                 }
                 catch(Exception ex)
                 {
