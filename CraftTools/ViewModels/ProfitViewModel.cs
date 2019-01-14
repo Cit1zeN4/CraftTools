@@ -55,7 +55,7 @@ namespace CraftTools.ViewModels
         GridLength editBoxLength = new GridLength(0);
         double lossPrice;
         double profitPrice;
-        double resultPrice;
+        double incomePrice;
 
         #endregion
 
@@ -154,7 +154,7 @@ namespace CraftTools.ViewModels
             set
             {
                 lossPrice = Math.Round(value, 2);
-                ResultPrice = ProfitPrice - LossPrice;
+                IncomePrice = ProfitPrice - LossPrice;
                 OnPropertyChanged();
             }
         }
@@ -165,17 +165,17 @@ namespace CraftTools.ViewModels
             set
             {
                 profitPrice = Math.Round(value, 2);
-                ResultPrice = ProfitPrice - LossPrice;
+                IncomePrice = ProfitPrice - LossPrice;
                 OnPropertyChanged();
             }
         }
 
-        public double ResultPrice
+        public double IncomePrice
         {
-            get => resultPrice;
+            get => incomePrice;
             set
             {
-                resultPrice = Math.Round(value, 2);
+                incomePrice = Math.Round(value, 2);
                 OnPropertyChanged();
             }
         }
