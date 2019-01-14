@@ -38,6 +38,7 @@ namespace CraftTools.ViewModels
         public WareViewModel()
         {
             AddedWare = new Ware();
+            Changer = new WareMaterialChanger();
         }
 
         #endregion
