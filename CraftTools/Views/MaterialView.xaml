@@ -111,7 +111,8 @@
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                             Margin="0 0 10 10" HorizontalAlignment="Stretch"
                             materialDesign:HintAssist.Hint="Цена"
-                            Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                            Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                            PreviewTextInput="TextBox_PreviewTextInput"/>
 
                         <TextBlock 
                             Text="BYN" 
@@ -251,7 +252,8 @@
                                 <TextBlock 
                                     Foreground="White" Margin="0 0 10 5" 
                                     Grid.Row="1" Grid.Column="2" 
-                                    Text="{Binding Price, StringFormat={}{0} BYN}"/>
+                                    Text="{Binding Price, StringFormat={}{0} BYN}"
+                                    PreviewTextInput="TextBox_PreviewTextInput"/>
                             </Grid>
 
                         </materialDesign:Card>
@@ -435,7 +437,8 @@
                             IsReadOnly="{Binding IsReadOnly, 
                             Source={StaticResource _materialVM}, 
                             Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            materialDesign:HintAssist.Hint="Цена"/>
+                            materialDesign:HintAssist.Hint="Цена"
+                            PreviewTextInput="TextBox_PreviewTextInput"/>
 
                         <TextBlock 
                             Text="BYN" FontSize="28"

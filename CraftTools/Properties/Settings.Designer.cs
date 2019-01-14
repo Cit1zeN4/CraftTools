@@ -23,13 +23,63 @@ namespace CraftTools.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;Initial Catalog=CraftToolsDB;Integrated Security=True")]
-        public string CraftToolsContext {
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\SQLEXPRESS")]
+        public string DBServerName {
             get {
-                return ((string)(this["CraftToolsContext"]));
+                return ((string)(this["DBServerName"]));
+            }
+            set {
+                this["DBServerName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("CraftToolsDB")]
+        public string DBDatabaseName {
+            get {
+                return ((string)(this["DBDatabaseName"]));
+            }
+            set {
+                this["DBDatabaseName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DBUseIntegratedSecurity {
+            get {
+                return ((bool)(this["DBUseIntegratedSecurity"]));
+            }
+            set {
+                this["DBUseIntegratedSecurity"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DBUserName {
+            get {
+                return ((string)(this["DBUserName"]));
+            }
+            set {
+                this["DBUserName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DBPassword {
+            get {
+                return ((string)(this["DBPassword"]));
+            }
+            set {
+                this["DBPassword"] = value;
             }
         }
     }

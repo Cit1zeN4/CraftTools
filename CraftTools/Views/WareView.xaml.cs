@@ -63,5 +63,14 @@ namespace CraftTools.Views
         {
             AddWareImageButton.Opacity = 1;
         }
+
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox textBox = (sender as TextBox);
+            e.Handled = (!(Char.IsDigit(e.Text, 0) && !((textBox.Text.IndexOf("-") == 0) && textBox.SelectionStart == 0))) &&
+                ((e.Text.Substring(0, 1) != "-") || (textBox.Text.IndexOf("-") == 0) || textBox.SelectionStart != 0) &&
+                ((e.Text.Substring(0, 1) != ".") || (textBox.Text.IndexOf(".") != -1) || (textBox.SelectionStart == 0) || (!Char.IsDigit(textBox.Text.Substring(textBox.SelectionStart - 1, 1), 0)) || ((textBox.Text.IndexOf(",") != -1))) &&
+                ((e.Text.Substring(0, 1) != ",") || (textBox.Text.IndexOf(",") != -1) || (textBox.SelectionStart == 0) || (!Char.IsDigit(textBox.Text.Substring(textBox.SelectionStart - 1, 1), 0)) || ((textBox.Text.IndexOf(".") != -1)));
+        }
     }
 }

@@ -188,7 +188,8 @@
                                         UpdateSourceTrigger=LostFocus}" 
                                         FontWeight="Bold" FontSize="20"
                                         Foreground="{DynamicResource PrimaryHueMidBrush}"
-                                        IsReadOnly="True"/>
+                                        IsReadOnly="True"
+                                        PreviewTextInput="TextBox_PreviewTextInput"/>
 
                                 </Grid>
 
@@ -229,7 +230,8 @@
                     Text="{Binding BaseWareViewModel.SelectedWare.Price, Mode=TwoWay, 
                     UpdateSourceTrigger=PropertyChanged}" 
                     Foreground="{DynamicResource PrimaryHueMidBrush}" 
-                    VerticalAlignment="Center" FontWeight="Bold" FontSize="20"/>
+                    VerticalAlignment="Center" FontWeight="Bold" FontSize="20"
+                    PreviewTextInput="TextBox_PreviewTextInput"/>
 
             </StackPanel>
 
