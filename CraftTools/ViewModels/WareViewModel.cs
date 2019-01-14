@@ -56,6 +56,9 @@ namespace CraftTools.ViewModels
         string editBoxCurentIcon = "Pencil";
         GridLength editBoxLength = new GridLength(0);
         Visibility isVisible = Visibility.Hidden;
+        double lossPrice;
+        double profitPrice;
+        double incomePrice;
 
         #endregion
 
@@ -168,6 +171,38 @@ namespace CraftTools.ViewModels
             }
         }
 
+        public double LossPrice
+        {
+            get => lossPrice;
+            set
+            {
+                lossPrice = Math.Round(value, 2);
+                IncomePrice = ProfitPrice - LossPrice;
+                OnPropertyChanged();
+            }
+        }
+
+        public double ProfitPrice
+        {
+            get => profitPrice;
+            set
+            {
+                profitPrice = Math.Round(value, 2);
+                IncomePrice = ProfitPrice - LossPrice;
+                OnPropertyChanged();
+            }
+        }
+
+        public double IncomePrice
+        {
+            get => incomePrice;
+            set
+            {
+                incomePrice = Math.Round(value, 2);
+                OnPropertyChanged();
+            }
+        }
+
         public WareMaterialChanger Changer { get; set; }
 
         #endregion
@@ -177,12 +212,18 @@ namespace CraftTools.ViewModels
         public async void LoadData()
         {
             List<Ware> list;
+            List<double> listProfitPrice;
+            List<double> listLossPrice;
             using (context = new CraftToolsContext())
             {
                 list = await context.Wares.Include(w => w.WareMaterials).ToListAsync();
+                listProfitPrice = await context.Profits.Select(o => o.Price).ToListAsync();
+                listLossPrice = await context.Losses.Select(o => o.Price).ToListAsync();
             }
             ProgressBarValue = 100;
             Wares = new ObservableCollection<Ware>(list);
+            ProfitPrice = listProfitPrice.Sum();
+            LossPrice = listLossPrice.Sum();
             IsDataLoaded = true;
         }
 

@@ -474,6 +474,33 @@
 
             </StackPanel>
 
+            <StackPanel
+                Grid.Column="0" Grid.ColumnSpan="2"
+                Grid.Row="0"
+                HorizontalAlignment="Right" Margin="0 0 10 0" 
+                Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBox
+                    Text="{Binding LossPrice, 
+                    Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                    IsReadOnly="True" IsEnabled="{Binding IsDataLoaded}"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                    materialDesign:HintAssist.Hint="Общие затраты"
+                    Margin="5 0 5 0"/>
+                <TextBox
+                    Text="{Binding ProfitPrice, 
+                    Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                    IsReadOnly="True" IsEnabled="{Binding IsDataLoaded}"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                    materialDesign:HintAssist.Hint="Общий доход"
+                    Margin="5 0 5 0"/>
+                <TextBox
+                    Text="{Binding IncomePrice, 
+                    Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                    IsReadOnly="True" IsEnabled="{Binding IsDataLoaded}"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                    materialDesign:HintAssist.Hint="Чистая прибыль"
+                    Margin="5 0 5 0"/>
+            </StackPanel>
         </Grid>
 
     </materialDesign:DialogHost>

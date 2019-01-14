@@ -353,7 +353,7 @@
                     Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
                     IsReadOnly="True" IsEnabled="{Binding IsDataLoaded}"
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                    materialDesign:HintAssist.Hint="Результат"
+                    materialDesign:HintAssist.Hint="Чистая прибыль"
                     Margin="5 0 5 0"/>
             </StackPanel>
 
