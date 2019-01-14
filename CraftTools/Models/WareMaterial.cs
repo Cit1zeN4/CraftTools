@@ -85,7 +85,7 @@ namespace CraftTools.Models
             get => _length;
             set
             {
-                _length = value;
+                _length = Math.Round(value, 2);
                 CustomPrice = CubicCM * Length * Width;
                 OnPropertyChanged();
             }
@@ -96,7 +96,7 @@ namespace CraftTools.Models
             get => _width;
             set
             {
-                _width = value;
+                _width = Math.Round(value, 2);
                 CustomPrice = CubicCM * Length * Width;
                 OnPropertyChanged();
             }

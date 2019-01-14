@@ -163,7 +163,8 @@
                                         materialDesign:HintAssist.Hint="Длина"
                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                         Text="{Binding Length, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                                        IsEnabled="{Binding HaveSize}"/>
+                                        IsEnabled="{Binding HaveSize}"
+                                        PreviewTextInput="TextBox_PreviewTextInput"/>
 
                                     <TextBox
                                         x:Name="WareMaterialWidth"
@@ -173,7 +174,8 @@
                                         materialDesign:HintAssist.Hint="Ширина"
                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                         Text="{Binding Width, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                                        IsEnabled="{Binding HaveSize}"/>
+                                        IsEnabled="{Binding HaveSize}"
+                                        PreviewTextInput="TextBox_PreviewTextInput"/>
 
                                     <TextBox
                                         x:Name="WareMaterialCustomPrice"
