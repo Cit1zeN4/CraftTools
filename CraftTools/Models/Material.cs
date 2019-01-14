@@ -76,7 +76,7 @@ namespace CraftTools.Models
             {
                 if (_price != value)
                 {
-                    _price = value;
+                    _price = Math.Round(value, 2);
                     OnPropertyChanged();
                 }
             }

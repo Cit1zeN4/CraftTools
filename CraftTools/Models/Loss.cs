@@ -63,7 +63,7 @@ namespace CraftTools.Models
             get => _price;
             set
             {
-                _price = value;
+                _price = Math.Round(value, 2);
                 OnPropertyChanged();
             }
         }

@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace CraftTools.Models
 {
@@ -84,7 +85,7 @@ namespace CraftTools.Models
             {
                 if (_price != value)
                 {
-                    _price = value;
+                    _price = Math.Round(value, 2);
                     OnPropertyChanged();
                 }
             }
