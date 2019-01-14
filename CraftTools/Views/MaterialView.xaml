@@ -131,12 +131,14 @@
                             <TextBox
                                 IsEnabled="{Binding IsChecked, ElementName=AddMaterialHaveSizeCheckBox}"
                                 materialDesign:HintAssist.Hint="Длина" Width="80"
-                                Text="{Binding Length, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                                Text="{Binding Length, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                PreviewTextInput="TextBox_PreviewTextInput"/>
                             <TextBlock Text="X" Margin="5 0 5 0"/>
                             <TextBox
                                 IsEnabled="{Binding IsChecked, ElementName=AddMaterialHaveSizeCheckBox}"
                                 materialDesign:HintAssist.Hint="Ширина" Width="80"
-                                Text="{Binding Width, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                                Text="{Binding Width, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                PreviewTextInput="TextBox_PreviewTextInput"/>
                             <TextBlock Text="СМ" Margin="5 0 5 0"/>
                         </StackPanel>
 
@@ -409,13 +411,15 @@
                                 IsEnabled="{Binding IsChecked, ElementName=HaveSizeCheckBox}"
                                 materialDesign:HintAssist.Hint="Длина" Width="80"
                                 Text="{Binding Length, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                                IsReadOnly="{Binding IsReadOnly, Source={StaticResource _materialVM}}"/>
+                                IsReadOnly="{Binding IsReadOnly, Source={StaticResource _materialVM}}"
+                                PreviewTextInput="TextBox_PreviewTextInput"/>
                             <TextBlock Text="X" Margin="5 0 5 0"/>
                             <TextBox
                                 IsEnabled="{Binding IsChecked, ElementName=HaveSizeCheckBox}"
                                 materialDesign:HintAssist.Hint="Ширина" Width="80"
                                 Text="{Binding Width, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                                IsReadOnly="{Binding IsReadOnly, Source={StaticResource _materialVM}}"/>
+                                IsReadOnly="{Binding IsReadOnly, Source={StaticResource _materialVM}}"
+                                PreviewTextInput="TextBox_PreviewTextInput"/>
                             <TextBlock Text="СМ" Margin="5 0 5 0"/>
                         </StackPanel>
 
