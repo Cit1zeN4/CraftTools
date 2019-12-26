@@ -1,11 +1,11 @@
 ﻿using CraftTools.Helpers;
 using CraftTools.Models;
 using CraftTools.Properties;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -44,6 +44,7 @@ namespace CraftTools.ViewModels
         bool isDataLoaded = false;
         bool userPriceMarkupButton = true;
         string userPriceMarkupIcon = "CurrencyUsd";
+        DbContextOptionsBuilder builder = new DbContextOptionsBuilder();
 
         #endregion
 
@@ -52,6 +53,7 @@ namespace CraftTools.ViewModels
         public WareMaterialViewModel()
         {
             AddedWareMaterial = new WareMaterial();
+            builder.UseNpgsql(Tools.GetConnectionString());
         }
 
         #endregion
@@ -145,7 +147,7 @@ namespace CraftTools.ViewModels
         public async void LoadData()
         {
             List<Material> list;
-            using (context = new CraftToolsContext())
+            using (context = new CraftToolsContext(builder.Options))
             {
                 list = await context.Materials.ToListAsync();
             }

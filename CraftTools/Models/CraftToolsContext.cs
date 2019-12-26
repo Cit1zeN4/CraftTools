@@ -1,14 +1,15 @@
 ﻿namespace CraftTools.Models
 {
+    using Microsoft.EntityFrameworkCore;
     using System;
-    using System.Data.Entity;
     using System.Linq;
 
     public class CraftToolsContext : DbContext
     {
-        public CraftToolsContext()
-            : base(Helpers.Tools.GetConnectionString())
+        public CraftToolsContext(DbContextOptions options) : base(options)
         {
+            Database.EnsureCreated();
+            Database.Migrate();
         }
 
         public DbSet<Material> Materials { get; set; }

@@ -1,11 +1,11 @@
 ﻿using CraftTools.Helpers;
 using CraftTools.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -37,6 +37,7 @@ namespace CraftTools.ViewModels
         public MaterialViewModel()
         {
             AddedMaterial = new Material();
+            builder.UseNpgsql(Tools.GetConnectionString());
         }
 
         #endregion
@@ -57,6 +58,7 @@ namespace CraftTools.ViewModels
         double lossPrice;
         double profitPrice;
         double incomePrice;
+        DbContextOptionsBuilder builder = new DbContextOptionsBuilder();
 
         #endregion
 
@@ -210,7 +212,7 @@ namespace CraftTools.ViewModels
             List<Material> list;
             List<double> listProfitPrice;
             List<double> listLossPrice;
-            using (context = new CraftToolsContext())
+            using (context = new CraftToolsContext(builder.Options))
             {
                 list = await context.Materials.ToListAsync();
                 listProfitPrice = await context.Profits.Select(o => o.Price).ToListAsync();
@@ -285,7 +287,7 @@ namespace CraftTools.ViewModels
 
         private async void SaveChangesMethodAsync()
         {
-            using (context = new CraftToolsContext())
+            using (context = new CraftToolsContext(builder.Options))
             {
                 if (IsReadOnly == true)
                 {
@@ -311,7 +313,7 @@ namespace CraftTools.ViewModels
 
         public async Task AddMaterialMethodAsync()
         {
-            using (context = new CraftToolsContext())
+            using (context = new CraftToolsContext(builder.Options))
             {
                 try
                 {
@@ -340,7 +342,7 @@ namespace CraftTools.ViewModels
 
         public async void DeleteMaterialMethod()
         {
-            using (context = new CraftToolsContext())
+            using (context = new CraftToolsContext(builder.Options))
             {
                 try
                 {

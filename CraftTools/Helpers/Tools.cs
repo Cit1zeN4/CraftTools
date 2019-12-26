@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using Npgsql;
 
 namespace CraftTools.Helpers
 {
@@ -41,21 +42,31 @@ namespace CraftTools.Helpers
 
         public static string GetConnectionString()
         {
-            SqlConnectionStringBuilder sql = new SqlConnectionStringBuilder();
-            sql.DataSource = Properties.Settings.Default.DBServerName;
-            sql.InitialCatalog = Properties.Settings.Default.DBDatabaseName;
-            sql.IntegratedSecurity = Properties.Settings.Default.DBUseIntegratedSecurity;
-            if (!sql.IntegratedSecurity)
+            string connectionString;
+            var DataSource = Properties.Settings.Default.DBServerName;
+            var Port = Properties.Settings.Default.DBProt;
+            var InitialCatalog = Properties.Settings.Default.DBDatabaseName;
+            var IntegratedSecurity = Properties.Settings.Default.DBUseIntegratedSecurity;
+            var UserID = Properties.Settings.Default.DBUserName;
+            var Password = Properties.Settings.Default.DBPassword;
+
+            connectionString = $"Server={DataSource};Port={Port};Database={InitialCatalog};";
+
+            if (IntegratedSecurity)
             {
-                sql.UserID = Properties.Settings.Default.DBUserName;
-                sql.Password = Properties.Settings.Default.DBPassword;
+                connectionString += $"User Id={UserID};Password={Password}";
             }
-            return sql.ConnectionString;
+            else
+            {
+                connectionString += $"Integrated Security={IntegratedSecurity};";
+            }
+            return connectionString;
         }
 
-        public static void SetConnectionString(string serverName, string dbName, bool integratedSecurity = true, string userId = "", string password = "" )
+        public static void SetConnectionString(string serverName, string port, string dbName, bool integratedSecurity = true, string userId = "", string password = "" )
         {
             Properties.Settings.Default.DBServerName = serverName;
+            Properties.Settings.Default.DBProt = port;
             Properties.Settings.Default.DBDatabaseName = dbName;
             Properties.Settings.Default.DBUseIntegratedSecurity = integratedSecurity;
             Properties.Settings.Default.DBUserName = userId;

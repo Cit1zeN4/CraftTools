@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace CraftTools.ViewModels
 {
@@ -38,6 +38,7 @@ namespace CraftTools.ViewModels
         public ProfitViewModel()
         {
             AddedProfit = new Profit();
+            builder.UseNpgsql(Tools.GetConnectionString());
         }
 
         #endregion
@@ -56,6 +57,7 @@ namespace CraftTools.ViewModels
         double lossPrice;
         double profitPrice;
         double incomePrice;
+        DbContextOptionsBuilder builder = new DbContextOptionsBuilder();
 
         #endregion
 
@@ -188,7 +190,7 @@ namespace CraftTools.ViewModels
         {
             List<Profit> list;
             List<double> listLossPrice;
-            using (context = new CraftToolsContext())
+            using (context = new CraftToolsContext(builder.Options))
             {
                 list = await context.Profits.ToListAsync();
                 listLossPrice = await context.Losses.Select(o => o.Price).ToListAsync();
@@ -244,7 +246,7 @@ namespace CraftTools.ViewModels
 
         private async void saveChangesMethodAsync()
         {
-            using (context = new CraftToolsContext())
+            using (context = new CraftToolsContext(builder.Options))
             {
                 if (IsReadOnly == true)
                 {
@@ -267,7 +269,7 @@ namespace CraftTools.ViewModels
 
         public async Task AddProfitMethodAsync()
         {
-            using (context = new CraftToolsContext())
+            using (context = new CraftToolsContext(builder.Options))
             {
                 try
                 {
@@ -286,7 +288,7 @@ namespace CraftTools.ViewModels
 
         public async void DeleteProfitMethod()
         {
-            using (context = new CraftToolsContext())
+            using (context = new CraftToolsContext(builder.Options))
             {
                 try
                 {

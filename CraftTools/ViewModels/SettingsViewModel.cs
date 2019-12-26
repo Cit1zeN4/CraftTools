@@ -42,6 +42,16 @@ namespace CraftTools.ViewModels
             }
         }
 
+        public string DBPort
+        {
+            get => Properties.Settings.Default.DBProt;
+            set
+            {
+                Properties.Settings.Default.DBProt = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string DBDatabaseName
         {
             get => Properties.Settings.Default.DBDatabaseName;

@@ -1,12 +1,12 @@
 ﻿using CraftTools.Helpers;
 using CraftTools.Models;
 using CraftTools.Views;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -39,6 +39,7 @@ namespace CraftTools.ViewModels
         {
             AddedWare = new Ware();
             Changer = new WareMaterialChanger();
+            builder.UseNpgsql(Tools.GetConnectionString());
         }
 
         #endregion
@@ -59,6 +60,7 @@ namespace CraftTools.ViewModels
         double lossPrice;
         double profitPrice;
         double incomePrice;
+        DbContextOptionsBuilder builder = new DbContextOptionsBuilder();
 
         #endregion
 
@@ -214,7 +216,7 @@ namespace CraftTools.ViewModels
             List<Ware> list;
             List<double> listProfitPrice;
             List<double> listLossPrice;
-            using (context = new CraftToolsContext())
+            using (context = new CraftToolsContext(builder.Options))
             {
                 list = await context.Wares.Include(w => w.WareMaterials).ToListAsync();
                 listProfitPrice = await context.Profits.Select(o => o.Price).ToListAsync();
@@ -286,7 +288,7 @@ namespace CraftTools.ViewModels
 
         private async void SaveChangesMethodAsync()
         {
-            using (context = new CraftToolsContext())
+            using (context = new CraftToolsContext(builder.Options))
             {
                 if (IsReadOnly == true)
                 {
@@ -330,7 +332,7 @@ namespace CraftTools.ViewModels
 
         public async Task AddWareMethodAsync()
         {
-            using (context = new CraftToolsContext())
+            using (context = new CraftToolsContext(builder.Options))
             {
                 try
                 {
@@ -357,7 +359,7 @@ namespace CraftTools.ViewModels
 
         public async void DeleteWareMethod()
         {
-            using (context = new CraftToolsContext())
+            using (context = new CraftToolsContext(builder.Options))
             {
                 try
                 {

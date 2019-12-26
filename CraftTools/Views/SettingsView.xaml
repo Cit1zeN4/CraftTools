@@ -25,6 +25,12 @@
             </StackPanel>
             <StackPanel Margin="5">
                 <TextBox
+                    materialDesign:HintAssist.Hint="Порт"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                    Text="{Binding DBPort, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+            </StackPanel>
+            <StackPanel Margin="5">
+                <TextBox
                     materialDesign:HintAssist.Hint="Название базы данных"
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                     Text="{Binding DBDatabaseName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
@@ -40,14 +46,14 @@
                     materialDesign:HintAssist.Hint="Имя пользователя"
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                     Text="{Binding DBUserName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                    IsEnabled="{Binding DBUseIntegratedSecurity, UpdateSourceTrigger=PropertyChanged}"/>
+                    IsEnabled="{Binding !DBUseIntegratedSecurity, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Margin="5">
                 <TextBox
                     materialDesign:HintAssist.Hint="Пароль"
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                     Text="{Binding DBPassword, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                    IsEnabled="{Binding DBUseIntegratedSecurity, UpdateSourceTrigger=PropertyChanged}"/>
+                    IsEnabled="{Binding !DBUseIntegratedSecurity, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

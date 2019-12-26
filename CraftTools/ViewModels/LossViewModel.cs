@@ -1,10 +1,10 @@
 ﻿using CraftTools.Helpers;
 using CraftTools.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -36,6 +36,7 @@ namespace CraftTools.ViewModels
         public LossViewModel()
         {
             AddedLoss = new Loss();
+            builder.UseNpgsql(Tools.GetConnectionString());
         }
 
         #endregion
@@ -54,6 +55,7 @@ namespace CraftTools.ViewModels
         double lossPrice;
         double profitPrice;
         double incomePrice;
+        DbContextOptionsBuilder builder = new DbContextOptionsBuilder();
 
         #endregion
 
@@ -186,7 +188,7 @@ namespace CraftTools.ViewModels
         {
             List<Loss> list;
             List<double> listProfitPrice;
-            using (context = new CraftToolsContext())
+            using (context = new CraftToolsContext(builder.Options))
             {
                 list = await context.Losses.ToListAsync();
                 listProfitPrice = await context.Profits.Select(o => o.Price).ToListAsync();
@@ -242,7 +244,7 @@ namespace CraftTools.ViewModels
 
         private async void saveChangesMethodAsync()
         {
-            using (context = new CraftToolsContext())
+            using (context = new CraftToolsContext(builder.Options))
             {
                 if (IsReadOnly == true)
                 {
@@ -265,7 +267,7 @@ namespace CraftTools.ViewModels
 
         public async Task AddLossMethodAsync()
         {
-            using (context = new CraftToolsContext())
+            using (context = new CraftToolsContext(builder.Options))
             {
                 try
                 {
@@ -284,7 +286,7 @@ namespace CraftTools.ViewModels
 
         public async void DeleteLossMethod()
         {
-            using (context = new CraftToolsContext())
+            using (context = new CraftToolsContext(builder.Options))
             {
                 try
                 {
